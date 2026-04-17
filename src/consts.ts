@@ -56,13 +56,21 @@ export const OWNER = {
   institutionalAddress: '', // e.g. 'Mathematisches Institut, Universität Bonn'
 } as const;
 
-/** Convenience flags for templates. */
+/**
+ * Convenience flags for templates.
+ *
+ * Compared via a helper so the argument widens to `string`; otherwise the
+ * `as const` literal types above would make `x !== ''` a compile error
+ * (ts 2367) once any of the fields is filled in.
+ */
+const isSet = (s: string): boolean => s !== '';
+
 export const HAS = {
-  email: OWNER.email !== '',
-  orcid: OWNER.orcid !== '',
-  github: OWNER.github !== '',
-  mathstodon: OWNER.mathstodon !== '',
-  address: OWNER.institutionalAddress !== '',
+  email: isSet(OWNER.email),
+  orcid: isSet(OWNER.orcid),
+  github: isSet(OWNER.github),
+  mathstodon: isSet(OWNER.mathstodon),
+  address: isSet(OWNER.institutionalAddress),
 } as const;
 
 export const NAV: ReadonlyArray<{ href: string; label: string }> = [
