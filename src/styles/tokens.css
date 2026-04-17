@@ -1,93 +1,150 @@
 /*
-  Design tokens.
-  All values defined here. Components must reference these — never hard-code.
+  Design tokens — draft/al-folio-style.
+
+  Mirrors the al-folio Jekyll theme's visual format:
+    https://github.com/alshedivat/al-folio
+    https://rouvenjahnke.github.io/
+
+  Font stack:
+    Body  → Roboto (300/400/500/700)
+    Heading → Roboto Slab (300/400/500/700)
+    Both self-hosted via @fontsource — no Google Fonts CDN (DSGVO).
+
+  Theme is light by default. A user can toggle dark via the navbar
+  button; the choice persists in localStorage. The browser's
+  `prefers-color-scheme` is the initial fallback when no preference is
+  stored. See ~/layouts/Base.astro for the no-flash setup script and
+  ~/components/SiteHeader.astro for the toggle.
 */
 
-:root {
-  /* ── Colour ────────────────────────────────────────────────────────────── */
-  /* Warm paper background, slightly cooler than Tufte's #fffff8 to reduce
-     yellow cast on calibrated displays while preserving the off-white feel. */
-  --color-bg:           #fbfaf6;
-  --color-bg-subtle:    #f3f1ea;
-  --color-text:         #1a1a1a;  /* 16.4 : 1 on bg */
-  --color-text-muted:   #5b5b5b;  /*  6.6 : 1 on bg — AA at any size */
-  --color-text-faint:   #6f6f6f;  /*  4.7 : 1 on bg — AA for normal text */
-  --color-rule:         #d6d2c4;
-  --color-rule-strong:  #8a8678;
+:root,
+:root[data-theme='light'] {
+  /* ── Brand & accent ─────────────────────────────────────────────────── */
+  --color-bg:           #ffffff;
+  --color-bg-soft:      #f8f9fa;
+  --color-text:         #212529;
+  --color-text-muted:   #6c757d;
+  --color-text-faint:   #868e96;
+  --color-rule:         #dee2e6;
+  --color-rule-strong:  #ced4da;
 
-  /* Muted ink-blue. Reserved for links and very sparing emphasis. */
-  --color-accent:       #2c3e5a;
-  --color-accent-hover: #1a2740;
-  --color-accent-faint: rgba(44, 62, 90, 0.10);
+  /* al-folio's default accent is `--global-theme-color: #b509ac` (warm
+     purple). We swap it for a calm academic blue so links read as
+     conventional hyperlinks, not as decoration. The variable name keeps
+     al-folio terminology so this is easy to retune. */
+  --color-accent:        #3079ed;
+  --color-accent-hover:  #1a5fc7;
 
-  --color-selection-bg: rgba(44, 62, 90, 0.18);
-  --color-selection-fg: #1a1a1a;
+  --color-shadow:        rgba(0, 0, 0, 0.08);
+  --color-navbar-bg:     rgba(255, 255, 255, 0.92);
+  --color-navbar-border: rgba(0, 0, 0, 0.06);
 
-  /* ── Type families ─────────────────────────────────────────────────────── */
-  --font-serif:
-    'EB Garamond Variable', 'EB Garamond', Garamond,
-    'Hoefler Text', 'Times New Roman', Georgia, serif;
+  --color-selection-bg: rgba(48, 121, 237, 0.18);
+  --color-selection-fg: #212529;
+
+  /* ── Type families ──────────────────────────────────────────────────── */
   --font-sans:
-    'Inter Variable', Inter, system-ui, -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Helvetica, Arial, sans-serif;
+    'Roboto', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Helvetica, Arial, sans-serif;
+  --font-slab:
+    'Roboto Slab', 'Roboto', Georgia, 'Times New Roman', serif;
   --font-mono:
-    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
-    'Liberation Mono', 'DejaVu Sans Mono', monospace;
+    'SFMono-Regular', 'SF Mono', Menlo, Consolas, 'Liberation Mono',
+    'DejaVu Sans Mono', monospace;
 
-  /* ── Type scale (modular, ratio ≈ 1.2) ─────────────────────────────────── */
-  --fs-xs:   0.78125rem;  /* 12.5px — micro labels */
-  --fs-sm:   0.875rem;    /* 14px   — metadata, captions */
-  --fs-base: 1.125rem;    /* 18px   — body */
-  --fs-md:   1.25rem;     /* 20px   — h4 */
-  --fs-lg:   1.5rem;      /* 24px   — h3 */
-  --fs-xl:   1.875rem;    /* 30px   — h2 */
-  --fs-2xl:  2.375rem;    /* 38px   — h1 */
+  /* ── Type scale ─────────────────────────────────────────────────────── */
+  --fs-xs:   0.8125rem;   /* 13px — fine print, footer */
+  --fs-sm:   0.9375rem;   /* 15px — table cells, captions */
+  --fs-base: 1rem;        /* 16px — body */
+  --fs-md:   1.125rem;    /* 18px — lede / .desc */
+  --fs-lg:   1.5rem;      /* 24px — h3 */
+  --fs-xl:   2rem;        /* 32px — h2 */
+  --fs-2xl:  2.75rem;     /* 44px — h1 / .post-title */
 
-  /* ── Line heights ──────────────────────────────────────────────────────── */
-  --lh-tight:  1.15;
-  --lh-snug:   1.3;
-  --lh-normal: 1.55;
-  --lh-loose:  1.7;
+  --lh-tight:  1.2;
+  --lh-snug:   1.35;
+  --lh-normal: 1.6;
+  --lh-loose:  1.75;
 
-  /* ── Letter spacing ────────────────────────────────────────────────────── */
   --tracking-tight:  -0.01em;
   --tracking-normal: 0;
   --tracking-wide:   0.02em;
-  --tracking-caps:   0.08em;   /* for tracked small-caps / acronyms */
 
-  /* ── Font weights ──────────────────────────────────────────────────────── */
+  --fw-light:    300;
   --fw-regular:  400;
   --fw-medium:   500;
-  --fw-semibold: 600;
   --fw-bold:     700;
 
-  /* ── Spacing scale (rem) ───────────────────────────────────────────────── */
+  /* ── Spacing scale ──────────────────────────────────────────────────── */
   --space-3xs: 0.125rem;
   --space-2xs: 0.25rem;
   --space-xs:  0.5rem;
   --space-sm:  0.75rem;
   --space-md:  1rem;
   --space-lg:  1.5rem;
-  --space-xl:  2rem;
-  --space-2xl: 3rem;
+  --space-xl:  2.25rem;
+  --space-2xl: 3.5rem;
   --space-3xl: 5rem;
-  --space-4xl: 8rem;
 
-  /* ── Layout / measure ──────────────────────────────────────────────────── */
-  /* Body measure 65–75ch per spec; 68ch is the centre. */
-  --measure:        68ch;
+  /* ── Layout ─────────────────────────────────────────────────────────── */
+  /* Mirror Bootstrap 4 container: 1140px max on xl, 15px gutter. */
+  --container-max:  1140px;
+  --gutter:         15px;
+
+  --navbar-height:  56px;
+  --footer-height:  40px;
+  --content-pad-y:  3rem;     /* breathing room above first heading */
+
+  --measure:        70ch;
   --measure-narrow: 56ch;
-  --measure-wide:   82ch;
 
-  /* Page container. Slightly wider than the measure to give nav and metadata
-     breathing room without breaking the visual relationship to the text. */
-  --site-width: 78ch;
-  --gutter:     clamp(1.25rem, 5vw, 2.5rem);
+  /* ── Misc ───────────────────────────────────────────────────────────── */
+  --border-rule:   1px solid var(--color-rule);
+  --radius-sm:     0.25rem;       /* Bootstrap default */
+  --radius-md:     0.5rem;
+  --radius-pill:   50rem;
+  --shadow-z1:     0 1px 3px var(--color-shadow);
+  --shadow-z2:     0 4px 12px var(--color-shadow);
+  --transition-fast: 120ms ease-out;
+}
 
-  /* ── Misc ──────────────────────────────────────────────────────────────── */
-  --border-rule: 1px solid var(--color-rule);
-  --radius-sm:   2px;       /* code blocks only — no rounded UI */
+/* ── Dark mode (explicit and via system pref) ─────────────────────────── */
+:root[data-theme='dark'] {
+  --color-bg:           #1c1c1d;
+  --color-bg-soft:      #242425;
+  --color-text:         #e9ecef;
+  --color-text-muted:   #adb5bd;
+  --color-text-faint:   #868e96;
+  --color-rule:         #343a40;
+  --color-rule-strong:  #495057;
 
-  /* Transitions — only for accessible focus / colour shifts on links. */
-  --transition-fast: 80ms ease-out;
+  --color-accent:       #6aa3ff;       /* lifted for AA on dark bg */
+  --color-accent-hover: #93bcff;
+
+  --color-shadow:       rgba(0, 0, 0, 0.4);
+  --color-navbar-bg:    rgba(28, 28, 29, 0.92);
+  --color-navbar-border: rgba(255, 255, 255, 0.06);
+
+  --color-selection-bg: rgba(106, 163, 255, 0.30);
+  --color-selection-fg: #e9ecef;
+}
+
+/* When the user has no stored preference, fall back to system. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-bg:           #1c1c1d;
+    --color-bg-soft:      #242425;
+    --color-text:         #e9ecef;
+    --color-text-muted:   #adb5bd;
+    --color-text-faint:   #868e96;
+    --color-rule:         #343a40;
+    --color-rule-strong:  #495057;
+    --color-accent:       #6aa3ff;
+    --color-accent-hover: #93bcff;
+    --color-shadow:       rgba(0, 0, 0, 0.4);
+    --color-navbar-bg:    rgba(28, 28, 29, 0.92);
+    --color-navbar-border: rgba(255, 255, 255, 0.06);
+    --color-selection-bg: rgba(106, 163, 255, 0.30);
+    --color-selection-fg: #e9ecef;
+  }
 }

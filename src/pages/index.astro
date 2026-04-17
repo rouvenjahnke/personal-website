@@ -1,95 +1,199 @@
 ---
 import Base from '~/layouts/Base.astro';
-import { OWNER, HAS } from '~/consts';
+import SocialIcons from '~/components/SocialIcons.astro';
+import { OWNER } from '~/consts';
 import { getCollection } from 'astro:content';
 
 const description =
   'Rouven Jahnke — incoming BSc Mathematics student at Universität Bonn (October 2026), currently Frühstudent at Universität Hamburg, working in algebraic geometry.';
 
-// "Recent" pulls the five newest non-draft notes. When the notes
-// collection is empty the section quietly disappears.
-const recent = (await getCollection('notes', ({ data }) => !data.draft))
-  .sort((a, b) => +b.data.date - +a.data.date)
-  .slice(0, 5);
+// Pull recent notes for the "news" / "latest posts" tables. The al-folio
+// home page populates these from `_news/*.md` and `_posts/*.md`; here we
+// reuse the existing `notes` collection so the sketch shows real content
+// the moment a new note is added.
+const allNotes = (await getCollection('notes', ({ data }) => !data.draft))
+  .sort((a, b) => +b.data.date - +a.data.date);
 
-const fmt = new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'short' });
+const news        = allNotes.slice(0, 3);
+const latestPosts = allNotes.slice(0, 4);
+
+let publications: Awaited<ReturnType<typeof getCollection<'papers'>>> = [];
+try {
+  publications = (await getCollection('papers'))
+    .sort((a, b) => (a.data.year < b.data.year ? 1 : -1))
+    .slice(0, 3);
+} catch (_) {
+  // collection may not exist yet — degrade silently
+}
+
+const fmtNews = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric', month: 'short', day: '2-digit',
+});
 ---
 
 <Base description={description}>
-  <article class="prose">
-    <header class="page-header">
-      <p class="page-header__eyebrow">Mathematics</p>
-      <h1>{OWNER.fullName}</h1>
-      <p class="page-header__lede">
-        Frühstudent at <abbr title="Universität Hamburg">UHH</abbr>; from October 2026,
-        BSc Mathematics at {OWNER.futureAffiliation}. Interested in algebraic geometry.
-      </p>
-    </header>
+  <div class="container">
+    <article class="post">
+      <header class="post-header">
+        <h1 class="post-title">
+          <strong>Rouven</strong> Jahnke
+        </h1>
+        <p class="desc">
+          Frühstudent at <a href="https://www.math.uni-hamburg.de" rel="external noopener">Universität Hamburg</a>.
+          From October 2026, BSc Mathematics at <a href="https://www.mathematics.uni-bonn.de" rel="external noopener">Universität Bonn</a>.
+          Algebraic geometry.
+        </p>
+      </header>
 
-    <p>
-      I am a first-generation mathematics student currently taking
-      <abbr>MSc</abbr>-level courses in algebra, algebraic geometry, and
-      topology as a <em>Frühstudent</em> at the Universität Hamburg. From
-      October 2026 I will begin the <abbr>BSc</abbr> programme in
-      mathematics at the Universität Bonn, with the long-term aim of
-      pursuing doctoral research in algebraic geometry.
-    </p>
-    <p>
-      My interests sit, broadly, around schemes and sheaves, intersection theory,
-      and classical results that connect the two — for instance, the configuration
-      of the twenty-seven lines on a smooth cubic surface. I am at an early stage
-      and most of what appears here is in progress; corrections are welcome.
-    </p>
+      <section class="clearfix">
+        <aside class="profile profile--right">
+          <figure>
+            <img
+              class="profile__img"
+              src="/prof_pic.svg"
+              alt="Profile photo of Rouven Jahnke"
+              width="270"
+              height="270"
+              loading="eager"
+            />
+          </figure>
+          <div class="profile__more more-info">
+            <p>{OWNER.currentAffiliation}</p>
+            <p>Bundesstraße 55</p>
+            <p>20146 Hamburg</p>
+          </div>
+        </aside>
 
-    <section class="section" aria-labelledby="currently">
-      <h2 id="currently">Currently</h2>
-      <ul>
-        <li>
-          Reading Hartshorne, <em>Algebraic Geometry</em>, Chapters <abbr>II</abbr>–<abbr>III</abbr>;
-          working through exercises in parallel.
-        </li>
-        <li>
-          Attending lectures on commutative algebra and algebraic topology at
-          the Universität Hamburg.
-        </li>
-        <li>
-          Volunteer tutoring through <a href="https://lern-fair.de" rel="noopener noreferrer">Lern-Fair</a>,
-          mostly mathematics at the <em>Oberstufe</em> level.
-        </li>
-      </ul>
-    </section>
-
-    {recent.length > 0 && (
-      <section class="section" aria-labelledby="recent">
-        <h2 id="recent">Recent</h2>
-        <ul class="entry-list" role="list">
-          {recent.map((note) => (
-            <li>
-              <time class="entry-list__date" datetime={note.data.date.toISOString()}>
-                {fmt.format(note.data.date)}
-              </time>
-              <div class="entry-list__body">
-                <a href={`/notes/${note.id}`} class="entry-list__title">
-                  {note.data.title}
-                </a>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <p>
+          I am a first-generation mathematics student currently taking
+          <abbr title="Master of Science">MSc</abbr>-level courses in algebra,
+          algebraic geometry, and topology as a <em>Frühstudent</em> at the
+          Universität Hamburg. From October 2026 I will begin the
+          <abbr title="Bachelor of Science">BSc</abbr> programme in
+          mathematics at the Universität Bonn, with the long-term aim of
+          pursuing doctoral research in algebraic geometry.
+        </p>
+        <p>
+          My interests sit, broadly, around schemes and sheaves, intersection
+          theory, and classical results that connect the two — for instance,
+          the configuration of the twenty-seven lines on a smooth cubic
+          surface. I am at an early stage and most of what appears here is
+          in progress; corrections are welcome.
+        </p>
+        <p>
+          Outside the lecture hall I run the
+          <a href="https://youtube.com/@MaPhy-Club" rel="external noopener">MaPhy-Club</a>
+          on YouTube, and tutor Oberstufe mathematics through
+          <a href="https://lern-fair.de" rel="external noopener">Lern-Fair</a>.
+        </p>
       </section>
-    )}
 
-    <section class="section" aria-labelledby="contact">
-      <h2 id="contact">Contact</h2>
-      <p class="meta-row">
-        <a href="/contact">Email</a>
-        {HAS.orcid && (
-          <a href={OWNER.orcidUrl} rel="noopener noreferrer me">ORCID</a>
-        )}
-        {HAS.github && (
-          <a href={OWNER.githubUrl} rel="noopener noreferrer me">GitHub</a>
-        )}
-      </p>
-    </section>
-  </article>
+      {news.length > 0 && (
+        <section>
+          <h2><a href="/notes" style="color: inherit">news</a></h2>
+          <div class="news news-table">
+            <table class="table table-sm table-borderless">
+              <tbody>
+                {news.map((n) => (
+                  <tr>
+                    <th scope="row">
+                      <time datetime={n.data.date.toISOString()}>
+                        {fmtNews.format(n.data.date)}
+                      </time>
+                    </th>
+                    <td>
+                      <a class="news-title" href={`/notes/${n.id}`}>{n.data.title}</a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
+      {latestPosts.length > 0 && (
+        <section>
+          <h2><a href="/notes" style="color: inherit">latest posts</a></h2>
+          <div class="news news-table">
+            <table class="table table-sm table-borderless">
+              <tbody>
+                {latestPosts.map((p) => (
+                  <tr>
+                    <th scope="row">
+                      <time datetime={p.data.date.toISOString()}>
+                        {fmtNews.format(p.data.date)}
+                      </time>
+                    </th>
+                    <td>
+                      <a class="news-title" href={`/notes/${p.id}`}>{p.data.title}</a>
+                      {p.data.summary && (
+                        <p style="margin: 0.25rem 0 0; font-size: 0.92em; color: var(--color-text-muted);">
+                          {p.data.summary}
+                        </p>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
+      <section>
+        <h2><a href="/writing" style="color: inherit">selected publications</a></h2>
+        <div class="publications">
+          <ol class="bibliography">
+            {publications.length === 0 ? (
+              <li style="grid-template-columns: 1fr;">
+                <p style="margin: 0; color: var(--color-text-muted); font-style: italic;">
+                  No preprints yet. Expository notes are listed under
+                  <a href="/writing">publications</a>.
+                </p>
+              </li>
+            ) : (
+              publications.map((paper) => (
+                <li>
+                  <div>
+                    <span class="bib-badge">{paper.data.year}</span>
+                  </div>
+                  <div>
+                    <h3 class="bib-title">{paper.data.title}</h3>
+                    <div class="bib-author">
+                      {paper.data.authors?.map((a, i) => (
+                        <>
+                          {i > 0 && ', '}
+                          {a === OWNER.fullName ? <em>{a}</em> : a}
+                        </>
+                      ))}
+                    </div>
+                    {(paper.data.venue ?? paper.data.status) && (
+                      <div class="bib-periodical">
+                        {paper.data.venue ?? paper.data.status}
+                      </div>
+                    )}
+                    <div class="bib-links">
+                      {paper.data.links.pdf && <a href={paper.data.links.pdf}>PDF</a>}
+                      {paper.data.links.arxiv && (
+                        <a href={`https://arxiv.org/abs/${paper.data.links.arxiv}`} rel="external noopener">arXiv</a>
+                      )}
+                      {paper.data.links.doi && (
+                        <a href={`https://doi.org/${paper.data.links.doi}`} rel="external noopener">DOI</a>
+                      )}
+                      {paper.data.links.url && (
+                        <a href={paper.data.links.url} rel="external noopener">HTML</a>
+                      )}
+                    </div>
+                  </div>
+                </li>
+              ))
+            )}
+          </ol>
+        </div>
+      </section>
+
+      <SocialIcons />
+    </article>
+  </div>
 </Base>

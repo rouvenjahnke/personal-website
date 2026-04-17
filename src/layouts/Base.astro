@@ -3,9 +3,16 @@ import { SITE } from '~/consts';
 import SiteHeader from '~/components/SiteHeader.astro';
 import SiteFooter from '~/components/SiteFooter.astro';
 
-import '@fontsource-variable/eb-garamond/index.css';
-import '@fontsource-variable/eb-garamond/wght-italic.css';
-import '@fontsource-variable/inter/index.css';
+// Roboto + Roboto Slab self-hosted via @fontsource (no Google Fonts CDN
+// — DSGVO). We load the four weights al-folio actually uses.
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import '@fontsource/roboto-slab/300.css';
+import '@fontsource/roboto-slab/400.css';
+import '@fontsource/roboto-slab/500.css';
+import '@fontsource/roboto-slab/700.css';
 
 import '~/styles/tokens.css';
 import '~/styles/reset.css';
@@ -88,6 +95,21 @@ const pathname = Astro.url.pathname.replace(/\.html$/i, '').replace(/\/index$/i,
     <meta name="twitter:description" content={description} />
 
     <slot name="head" />
+
+    {/* No-flash theme bootstrap. Reads localStorage 'theme' if set;
+       otherwise leaves the data-theme attribute unset so the
+       prefers-color-scheme media query takes over. Inline + sync so it
+       runs before first paint. */}
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (t === 'light' || t === 'dark') {
+            document.documentElement.setAttribute('data-theme', t);
+          }
+        } catch (_) {}
+      })();
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>

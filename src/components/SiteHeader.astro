@@ -11,18 +11,23 @@ const isCurrent = (href: string): boolean => {
   if (href === '/') return pathname === '/' || pathname === '';
   return pathname === href || pathname.startsWith(href + '/');
 };
+
+// Format the brand the al-folio way: bold first name, regular last name.
+const [first, ...rest] = SITE.name.split(' ');
+const last = rest.join(' ');
 ---
 
-<header class="site-header" role="banner">
-  <div class="site-header__inner">
-    <p class="site-title">
-      <a href="/" rel="home">{SITE.name}</a>
-    </p>
-    <nav class="site-nav" aria-label="Primary">
-      <ul class="site-nav__list" role="list">
+<header role="banner">
+  <nav class="navbar" aria-label="Primary">
+    <div class="container navbar__inner">
+      <a class="navbar__brand" href="/" rel="home">
+        <strong>{first}</strong>{last ? ' ' + last : ''}
+      </a>
+      <ul class="navbar__nav" role="list">
         {NAV.map((item) => (
           <li>
             <a
+              class="navbar__link"
               href={item.href}
               aria-current={isCurrent(item.href) ? 'page' : undefined}
             >
@@ -30,7 +35,34 @@ const isCurrent = (href: string): boolean => {
             </a>
           </li>
         ))}
+        <li>
+          <button
+            type="button"
+            class="navbar__toggle"
+            id="theme-toggle"
+            aria-label="Toggle colour theme"
+            title="Toggle colour theme"
+          >
+            <span data-icon="moon" aria-hidden="true">☾</span>
+            <span data-icon="sun"  aria-hidden="true">☀</span>
+          </button>
+        </li>
       </ul>
-    </nav>
-  </div>
+    </div>
+  </nav>
 </header>
+
+<script>
+  // Persist theme choice. Initial paint already happened with the
+  // no-flash inline script in Base.astro; this only handles clicks.
+  const btn = document.getElementById('theme-toggle');
+  const root = document.documentElement;
+  btn?.addEventListener('click', () => {
+    const current = root.getAttribute('data-theme');
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const effective = current ?? (systemDark ? 'dark' : 'light');
+    const next = effective === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (_) {}
+  });
+</script>

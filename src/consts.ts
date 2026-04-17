@@ -65,12 +65,12 @@ export const HAS = {
   address: OWNER.institutionalAddress !== '',
 } as const;
 
+// al-folio convention: lowercase nav labels, "about" instead of "home".
 export const NAV: ReadonlyArray<{ href: string; label: string }> = [
-  { href: '/', label: 'Home' },
-  { href: '/research', label: 'Research' },
-  { href: '/writing', label: 'Writing' },
-  { href: '/teaching', label: 'Teaching' },
-  { href: '/notes', label: 'Notes' },
-  { href: '/cv', label: 'CV' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/', label: 'about' },
+  { href: '/notes', label: 'blog' },
+  { href: '/writing', label: 'publications' },
+  { href: '/research', label: 'research' },
+  { href: '/teaching', label: 'teaching' },
+  { href: '/cv', label: 'cv' },
 ];

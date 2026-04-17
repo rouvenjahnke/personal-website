@@ -1,0 +1,65 @@
+---
+import { OWNER, HAS } from '~/consts';
+
+/**
+ * Inline SVG social icons. Each <symbol> is referenced via <use> in the
+ * row below so the markup stays compact. Icons are deliberately monochrome
+ * — they take their colour from `currentColor`.
+ *
+ * Glyphs adapted from simple-icons.org / academicons (single-path SVGs,
+ * fitted to a 24×24 box).
+ */
+---
+
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <defs>
+    <symbol id="i-mail" viewBox="0 0 24 24">
+      <path d="M2 4.75A2.75 2.75 0 0 1 4.75 2h14.5A2.75 2.75 0 0 1 22 4.75v14.5A2.75 2.75 0 0 1 19.25 22H4.75A2.75 2.75 0 0 1 2 19.25V4.75Zm2.41.06 7.59 5.62 7.59-5.62a1.25 1.25 0 0 0-.84-.31H5.25c-.32 0-.61.11-.84.31Zm15.09 1.7-7.07 5.24a1 1 0 0 1-1.19 0L4.17 6.51c-.04.16-.07.34-.07.52v12.22c0 .69.56 1.25 1.25 1.25h13.5c.69 0 1.25-.56 1.25-1.25V7.03c0-.18-.03-.36-.07-.52Z"/>
+    </symbol>
+    <symbol id="i-github" viewBox="0 0 24 24">
+      <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.27-.01-1-.02-1.96-3.2.69-3.87-1.54-3.87-1.54-.52-1.32-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.76 2.69 1.25 3.34.96.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18.91-.25 1.89-.38 2.87-.38.97 0 1.96.13 2.87.38 2.18-1.49 3.14-1.18 3.14-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.84 1.18 3.1 0 4.42-2.7 5.39-5.27 5.68.41.36.78 1.06.78 2.13 0 1.54-.01 2.78-.01 3.16 0 .31.21.68.8.56C20.21 21.39 23.5 17.07 23.5 12 23.5 5.65 18.35.5 12 .5Z"/>
+    </symbol>
+    <symbol id="i-orcid" viewBox="0 0 24 24">
+      <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.62 0 12 0ZM7.37 18.13H5.83V7.5h1.54v10.63ZM6.6 6.05a.97.97 0 0 1 0-1.95.97.97 0 0 1 0 1.95Zm12.04 5.7c0 3.6-2.51 6.39-6.36 6.39H8.84V7.5h3.45c3.86 0 6.35 2.74 6.35 4.25Zm-1.6.07c0-3.04-2.04-4.86-4.81-4.86h-1.66v9.74h1.66c2.55 0 4.81-1.62 4.81-4.88Z"/>
+    </symbol>
+    <symbol id="i-mastodon" viewBox="0 0 24 24">
+      <path d="M21.58 6.19c-.32-2.4-2.42-4.3-4.93-4.67C16.23 1.46 14.62 1.25 9.9 1.25h-.05c-4.7 0-5.71.21-6.13.27C1.27 1.88-.94 3.58-1.48 6 -1.74 7.2 -1.77 8.52 -1.72 9.74c.07 1.74.08 3.49.24 5.23.11 1.16.3 2.31.55 3.43.49 2.07 2.55 3.79 4.57 4.5 2.18.74 4.51.86 6.74.36.25-.06.49-.13.73-.21.55-.18 1.19-.37 1.66-.71l-.06-1.43s-.43.13-1.16.27c-1.92.36-4.02.49-6.04 0-.46-.13-.95-.27-1.45-.49 2.6-.65 4.74-1.97 6.05-4.04.69-1.11 1.13-2.31 1.46-3.55.36-1.34.49-2.65.55-4 .03-.69 0-1.41-.07-2.13ZM18.17 13.5h-2.27v-5.5c0-1.16-.49-1.75-1.46-1.75-1.07 0-1.62.69-1.62 2.05v2.97H10.6V8.3c0-1.36-.55-2.05-1.62-2.05-.97 0-1.46.59-1.46 1.75v5.5H5.25V8.13c0-1.16.3-2.08.88-2.77.61-.69 1.42-1.04 2.43-1.04 1.16 0 2.04.45 2.62 1.34l.57.95.57-.95c.58-.89 1.46-1.34 2.62-1.34 1.01 0 1.81.35 2.43 1.04.59.69.88 1.61.88 2.77v5.37Z"/>
+    </symbol>
+    <symbol id="i-rss" viewBox="0 0 24 24">
+      <path d="M5 3a16 16 0 0 1 16 16h-3A13 13 0 0 0 5 6V3Zm0 7a9 9 0 0 1 9 9h-3a6 6 0 0 0-6-6v-3Zm0 8a3 3 0 1 1 0 6 3 3 0 0 1 0-6Z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="social">
+  <div class="contact-icons social__icons">
+    {HAS.email && (
+      <a href="/contact" title="Email" aria-label="Email">
+        <svg aria-hidden="true"><use href="#i-mail"/></svg>
+      </a>
+    )}
+    {HAS.orcid && (
+      <a href={OWNER.orcidUrl} title="ORCID" aria-label="ORCID" rel="noopener noreferrer me">
+        <svg aria-hidden="true"><use href="#i-orcid"/></svg>
+      </a>
+    )}
+    {HAS.github && (
+      <a href={OWNER.githubUrl} title="GitHub" aria-label="GitHub" rel="noopener noreferrer me">
+        <svg aria-hidden="true"><use href="#i-github"/></svg>
+      </a>
+    )}
+    {HAS.mathstodon && OWNER.mathstodonUrl && (
+      <a href={OWNER.mathstodonUrl} title="Mastodon" aria-label="Mastodon" rel="me noopener noreferrer">
+        <svg aria-hidden="true"><use href="#i-mastodon"/></svg>
+      </a>
+    )}
+    <a href="/notes/rss.xml" title="RSS feed" aria-label="RSS feed">
+      <svg aria-hidden="true"><use href="#i-rss"/></svg>
+    </a>
+  </div>
+  {HAS.email && (
+    <p class="social__note contact-note">
+      Please feel free to contact me via <a href="/contact">email</a>.
+    </p>
+  )}
+</div>

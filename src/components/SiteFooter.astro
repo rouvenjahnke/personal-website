@@ -3,16 +3,11 @@ import { SITE } from '~/consts';
 const year = new Date().getFullYear();
 ---
 
-<footer class="site-footer" role="contentinfo">
-  <div class="site-footer__inner">
-    <p>© {year} {SITE.name}</p>
-    <nav class="site-footer__legal" aria-label="Legal">
-      <a href="/impressum" lang="de">Impressum</a>
-      <span aria-hidden="true"> · </span>
-      <a href="/privacy" lang="de">Datenschutz</a>
-    </nav>
-    <p>
-      <a href="/notes/rss.xml">RSS</a> · <a href="/sitemap-index.xml">Sitemap</a>
-    </p>
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    © {year} {SITE.name} ·
+    <a href="/impressum">Legal notice</a> ·
+    <a href="/privacy">Privacy</a> ·
+    <a href="/notes/rss.xml">RSS</a>
   </div>
 </footer>

@@ -2,55 +2,97 @@
 import Base from '~/layouts/Base.astro';
 
 // Curly placeholders are written as plain strings so Astro does not try to
-// evaluate them as JSX expressions.
-const ADRESSE = '{{ADRESSE}}';
-const EMAIL   = '{{EMAIL}}';
+// evaluate them as JSX expressions. Replace before publishing.
+const FULL_NAME    = 'Rouven Jahnke';
+const STREET       = '{{STREET_AND_NUMBER}}';
+const POSTAL_CITY  = '{{POSTCODE_CITY}}';
+const COUNTRY      = 'Germany';
+const EMAIL        = '{{EMAIL}}';
+const PHONE        = '{{PHONE_OR_EMPTY}}';   // optional; remove the dt/dd if empty
 
 const description =
-  'Impressum nach § 5 DDG für die private akademische Website von Rouven Jahnke.';
+  'Legal notice (Impressum) under § 5 of the German Digital Services Act (DDG) for Rouven Jahnke\u2019s personal academic website.';
 ---
 
-<Base title="Impressum" description={description}>
-  <article class="prose" lang="de">
+<Base title="Legal Notice" description={description}>
+  <article class="prose" lang="en">
     <header class="page-header">
-      <p class="page-header__eyebrow">Rechtliches</p>
-      <h1>Impressum</h1>
+      <p class="page-header__eyebrow">Legal</p>
+      <h1>Legal Notice <span lang="de" style="font-style: italic; color: var(--color-text-muted); font-size: 0.6em;">(Impressum)</span></h1>
       <p class="page-header__lede">
-        Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG).
+        Information pursuant to § 5 of the German Digital Services Act
+        (<abbr lang="de" title="Digitale-Dienste-Gesetz">DDG</abbr>),
+        which superseded the
+        <abbr title="Telemediengesetz">TMG</abbr> in May 2024.
       </p>
     </header>
 
-    <h2>Diensteanbieter</h2>
+    <h2>Service provider</h2>
     <address>
-      Rouven Jahnke<br />
-      {ADRESSE}
+      {FULL_NAME}<br />
+      {STREET}<br />
+      {POSTAL_CITY}<br />
+      {COUNTRY}
     </address>
 
-    <h2>Kontakt</h2>
+    <h2>Contact</h2>
     <dl>
-      <dt>E-Mail</dt>
-      <dd>{EMAIL}</dd>
+      <dt>Email</dt>
+      <dd><a href={`mailto:${EMAIL}`}>{EMAIL}</a></dd>
+      <dt>Phone</dt>
+      <dd>{PHONE}</dd>
     </dl>
 
-    <h2>Verantwortlich für den Inhalt</h2>
-    <p>Rouven Jahnke (Anschrift wie oben).</p>
-
-    <h2>Hinweise</h2>
+    <h2>Responsible for content</h2>
     <p>
-      Diese Website ist eine private, nicht-gewerbliche akademische
-      Homepage. Sie dient ausschließlich der Darstellung wissenschaftlicher
-      Interessen und persönlicher Tätigkeiten und verfolgt keine
-      wirtschaftlichen Zwecke. Eine Eintragung in einem Handelsregister
-      besteht nicht; eine Umsatzsteuer-Identifikationsnummer wird nicht
-      geführt.
+      {FULL_NAME} (address as above), in accordance with § 18 paragraph 2 of the
+      Interstate Media Treaty (<abbr lang="de" title="Medienstaatsvertrag">MStV</abbr>).
+    </p>
+
+    <h2>Notes on the nature of this site</h2>
+    <p>
+      This is a private, non-commercial academic homepage. Its sole purpose
+      is to present scientific interests and personal activities; no
+      commercial purpose is pursued. There is no entry in any commercial
+      register, and no <abbr title="Value Added Tax">VAT</abbr>
+      identification number is held.
     </p>
     <p>
-      Für eigene Inhalte ist der Betreiber gemäß § 7 Abs. 1 DDG nach den
-      allgemeinen Gesetzen verantwortlich. Eine Verpflichtung zur
-      Überwachung übermittelter oder gespeicherter fremder Informationen
-      besteht nach §§ 8 bis 10 DDG nicht. Auf die Inhalte verlinkter
-      externer Seiten besteht kein Einfluss; bei Bekanntwerden von
-      Rechtsverstößen werden entsprechende Links unverzüglich entfernt.
+      For its own content, the operator is responsible under the general
+      laws pursuant to § 7 paragraph 1 DDG. Pursuant to §§ 8 to 10 DDG,
+      the operator is not obliged to monitor transmitted or stored
+      third-party information. The operator has no influence over the
+      content of linked external sites; if any legal violations become
+      known, the corresponding links will be removed without delay.
+    </p>
+
+    <h2>Online dispute resolution</h2>
+    <p>
+      The European Commission provides a platform for online dispute
+      resolution (ODR) at
+      <a href="https://ec.europa.eu/consumers/odr" rel="external noopener">
+        ec.europa.eu/consumers/odr</a>.
+      The operator is neither obliged nor willing to participate in
+      dispute resolution proceedings before a consumer arbitration board.
+    </p>
+
+    <h2>Copyright</h2>
+    <p>
+      Unless otherwise indicated, all content on this site (text,
+      mathematical writing, figures) is © {FULL_NAME} and licensed under
+      the <a href="https://creativecommons.org/licenses/by/4.0/" rel="external noopener">Creative
+      Commons Attribution&nbsp;4.0</a> licence. Code samples are released
+      under the MIT licence unless stated otherwise.
+    </p>
+
+    <hr />
+    <p>
+      <small>
+        German speakers: a German version of this notice can be requested
+        by email; the legal references above (<abbr lang="de" title="Digitale-Dienste-Gesetz">DDG</abbr>,
+        <abbr lang="de" title="Medienstaatsvertrag">MStV</abbr>) refer to
+        German law and remain authoritative.
+      </small>
     </p>
   </article>
 </Base>
