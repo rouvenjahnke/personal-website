@@ -1,56 +1,53 @@
 ---
 import Base from '~/layouts/Base.astro';
 
-// Curly placeholders are written as plain strings so Astro does not try to
-// evaluate them as JSX expressions.
-const ADRESSE = '{{ADRESSE}}';
-const EMAIL   = '{{EMAIL}}';
-
 const description =
-  'Impressum nach § 5 DDG für die private akademische Website von Rouven Jahnke.';
+  'Legal notice (Impressum) under § 5 of the German Digital Services Act (DDG) for the private academic website of Rouven Jahnke.';
 ---
 
-<Base title="Impressum" description={description}>
-  <article class="prose" lang="de">
+<Base title="Legal notice" description={description}>
+  <article class="prose">
     <header class="page-header">
-      <p class="page-header__eyebrow">Rechtliches</p>
-      <h1>Impressum</h1>
+      <p class="page-header__eyebrow">Legal</p>
+      <h1>Legal notice</h1>
       <p class="page-header__lede">
-        Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG).
+        Information required under § 5 of the German Digital Services Act
+        (<abbr title="Digitale-Dienste-Gesetz">DDG</abbr>).
       </p>
     </header>
 
-    <h2>Diensteanbieter</h2>
+    <h2>Service provider</h2>
     <address>
       Rouven Jahnke<br />
-      {ADRESSE}
+      Smaalkoppel 24B<br />
+      22113 Oststeinbek<br />
+      Germany
     </address>
 
-    <h2>Kontakt</h2>
+    <h2>Contact</h2>
     <dl>
-      <dt>E-Mail</dt>
-      <dd>{EMAIL}</dd>
+      <dt>Email</dt>
+      <dd><a href="mailto:rouven.jahnke@web.de">rouven.jahnke@web.de</a></dd>
     </dl>
 
-    <h2>Verantwortlich für den Inhalt</h2>
-    <p>Rouven Jahnke (Anschrift wie oben).</p>
+    <h2>Responsible for content</h2>
+    <p>Rouven Jahnke (address as above).</p>
 
-    <h2>Hinweise</h2>
+    <h2>Notes</h2>
     <p>
-      Diese Website ist eine private, nicht-gewerbliche akademische
-      Homepage. Sie dient ausschließlich der Darstellung wissenschaftlicher
-      Interessen und persönlicher Tätigkeiten und verfolgt keine
-      wirtschaftlichen Zwecke. Eine Eintragung in einem Handelsregister
-      besteht nicht; eine Umsatzsteuer-Identifikationsnummer wird nicht
-      geführt.
+      This website is a private, non-commercial academic homepage. It
+      serves solely to present scholarly interests and personal
+      activities and does not pursue any commercial purpose. There is
+      no entry in any commercial register and no
+      VAT identification number is maintained.
     </p>
     <p>
-      Für eigene Inhalte ist der Betreiber gemäß § 7 Abs. 1 DDG nach den
-      allgemeinen Gesetzen verantwortlich. Eine Verpflichtung zur
-      Überwachung übermittelter oder gespeicherter fremder Informationen
-      besteht nach §§ 8 bis 10 DDG nicht. Auf die Inhalte verlinkter
-      externer Seiten besteht kein Einfluss; bei Bekanntwerden von
-      Rechtsverstößen werden entsprechende Links unverzüglich entfernt.
+      For its own content the operator is responsible under the general
+      laws pursuant to § 7 para. 1 DDG. Under §§ 8 to 10 DDG there is no
+      obligation to monitor transmitted or stored third-party
+      information. The operator has no influence over the content of
+      linked external sites; on becoming aware of any legal violation,
+      such links will be removed without undue delay.
     </p>
   </article>
 </Base>

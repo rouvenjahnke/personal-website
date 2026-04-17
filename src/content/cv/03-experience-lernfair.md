@@ -3,11 +3,11 @@ section: experience
 title: 'Volunteer mathematics tutor'
 organization: 'Lern-Fair e.V.'
 location: 'remote'
-start: '2024'
+start: '2025-04'
 end: 'present'
-order: 100
+order: 60
 url: 'https://www.lern-fair.de'
 ---
 
-One-to-one tutoring for *Oberstufe* students preparing for the *Abitur*,
-mostly in algebra, analysis, and analytic geometry.
+Twice-weekly digital *Abitur*-preparatory courses for roughly twenty
+pupils, plus intake screening of new learners for the tutoring programme.

@@ -28,9 +28,9 @@ export const SITE = {
  * write content themselves (e.g. PGP fingerprint). It is greppable so the
  * remaining work is easy to find.
  */
-const ORCID_ID = '';                           // e.g. '0000-0002-1825-0097'
-const GITHUB_USERNAME = '';                    // e.g. 'rouvenjahnke'
-const EMAIL_ADDRESS = '';                      // e.g. 'me@rouvenjahnke.com'
+const ORCID_ID = '0009-0009-7520-2719';
+const GITHUB_USERNAME = 'rouvenjahnke';
+const EMAIL_ADDRESS = 'rouven.jahnke@web.de';
 
 const reverseEmail = (s: string): string =>
   s ? s.split('').reverse().join('') : '';
@@ -50,8 +50,8 @@ export const OWNER = {
   github: GITHUB_USERNAME,
   githubUrl: GITHUB_USERNAME ? `https://github.com/${GITHUB_USERNAME}` : '',
 
-  mathstodon: '',          // e.g. '@you@mathstodon.xyz'
-  mathstodonUrl: '',       // derived if you set this; left manual on purpose
+  mathstodon: '@rjahnke@mathstodon.xyz',
+  mathstodonUrl: 'https://mathstodon.xyz/@rjahnke',
 
   institutionalAddress: '', // e.g. 'Mathematisches Institut, Universität Bonn'
 } as const;

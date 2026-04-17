@@ -1,8 +1,6 @@
 ---
 section: languages
-title: 'German (native), English (fluent)'
+title: 'German (native), English (C1), Spanish (B1)'
 start: '—'
 order: 100
 ---
-
-Reading knowledge of mathematical French.

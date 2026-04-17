@@ -1,6 +1,6 @@
 ---
 section: skills
-title: 'LaTeX, Sage, Macaulay2; Python, Git'
+title: 'LaTeX, Microsoft Office (advanced); GAP, Mathematica, Python (working)'
 start: '—'
 order: 100
 ---

@@ -52,6 +52,17 @@ const description = `How to reach ${OWNER.fullName}.`;
         </>
       )}
 
+      {HAS.mathstodon && (
+        <>
+          <dt>Mastodon</dt>
+          <dd>
+            <a href={OWNER.mathstodonUrl} rel="noopener noreferrer me">
+              {OWNER.mathstodon}
+            </a>
+          </dd>
+        </>
+      )}
+
       {HAS.address && (
         <>
           <dt>Address</dt>
