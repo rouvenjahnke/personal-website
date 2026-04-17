@@ -69,8 +69,10 @@ export const HAS = {
 export const NAV: ReadonlyArray<{ href: string; label: string }> = [
   { href: '/', label: 'about' },
   { href: '/research', label: 'research' },
-  { href: '/writing', label: 'writing' },
-  { href: '/notes', label: 'notes' },
+  { href: '/writing', label: 'publications' },
+  { href: '/projects', label: 'projects' },
+  { href: '/repositories', label: 'repositories' },
   { href: '/teaching', label: 'teaching' },
   { href: '/cv', label: 'cv' },
+  { href: '/notes', label: 'blog' },
 ];

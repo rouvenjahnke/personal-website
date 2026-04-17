@@ -1,25 +1,26 @@
 :root,
 :root[data-theme='light'] {
-  --color-bg: #f5efe5;
-  --color-bg-soft: #ebe3d4;
-  --color-bg-panel: rgba(255, 251, 244, 0.84);
-  --color-bg-panel-strong: #fcf8f1;
-  --color-text: #1f2430;
-  --color-text-muted: #59606b;
-  --color-text-faint: #878d96;
-  --color-rule: #d7cfbf;
-  --color-rule-strong: #c3baa7;
+  --color-bg: #f2ede3;
+  --color-bg-soft: #e3dccf;
+  --color-bg-panel: #faf7f0;
+  --color-bg-panel-strong: #fffdf8;
+  --color-text: #171a20;
+  --color-text-muted: #4d5561;
+  --color-text-faint: #7d8591;
+  --color-rule: #a69f92;
+  --color-rule-strong: #29251f;
+  --color-grid: rgba(41, 37, 31, 0.085);
 
-  --color-accent: #294b63;
-  --color-accent-hover: #193245;
-  --color-accent-soft: rgba(41, 75, 99, 0.08);
+  --color-accent: #173852;
+  --color-accent-hover: #0d2437;
+  --color-accent-soft: rgba(23, 56, 82, 0.08);
 
-  --color-badge-bg: #2b465c;
+  --color-badge-bg: #173852;
   --color-badge-fg: #f7f1e6;
 
-  --color-shadow: rgba(31, 36, 48, 0.12);
-  --color-navbar-bg: rgba(245, 239, 229, 0.9);
-  --color-navbar-border: rgba(41, 75, 99, 0.12);
+  --color-shadow: rgba(0, 0, 0, 0);
+  --color-navbar-bg: rgba(242, 237, 227, 0.98);
+  --color-navbar-border: rgba(41, 37, 31, 0.42);
 
   --color-selection-bg: rgba(41, 75, 99, 0.18);
   --color-selection-fg: #1f2430;
@@ -77,36 +78,38 @@
   --measure-narrow: 58ch;
 
   --border-rule: 1px solid var(--color-rule);
-  --radius-sm: 0.35rem;
-  --radius-md: 0.8rem;
-  --radius-lg: 1rem;
-  --radius-pill: 999px;
-  --shadow-z1: 0 8px 24px var(--color-shadow);
-  --shadow-z2: 0 18px 42px rgba(31, 36, 48, 0.16);
+  --border-rule-strong: 2px solid var(--color-rule-strong);
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-pill: 0;
+  --shadow-z1: none;
+  --shadow-z2: none;
   --transition-fast: 140ms ease-out;
 }
 
 :root[data-theme='dark'] {
-  --color-bg: #17191d;
-  --color-bg-soft: #1f232a;
-  --color-bg-panel: rgba(33, 37, 45, 0.82);
-  --color-bg-panel-strong: #1d2128;
-  --color-text: #ece8df;
-  --color-text-muted: #b8b2a8;
-  --color-text-faint: #8f928f;
-  --color-rule: #323843;
-  --color-rule-strong: #475060;
+  --color-bg: #131519;
+  --color-bg-soft: #1a1e24;
+  --color-bg-panel: #171b22;
+  --color-bg-panel-strong: #1b2028;
+  --color-text: #eeebe3;
+  --color-text-muted: #b9b1a5;
+  --color-text-faint: #8f958f;
+  --color-rule: #434a56;
+  --color-rule-strong: #d9d1c4;
+  --color-grid: rgba(217, 209, 196, 0.07);
 
-  --color-accent: #9dc0db;
-  --color-accent-hover: #c2d8eb;
-  --color-accent-soft: rgba(157, 192, 219, 0.14);
+  --color-accent: #b5d0e4;
+  --color-accent-hover: #d5e4ef;
+  --color-accent-soft: rgba(181, 208, 228, 0.14);
 
-  --color-badge-bg: #38536b;
+  --color-badge-bg: #28445a;
   --color-badge-fg: #edf1f5;
 
-  --color-shadow: rgba(0, 0, 0, 0.28);
-  --color-navbar-bg: rgba(23, 25, 29, 0.9);
-  --color-navbar-border: rgba(157, 192, 219, 0.12);
+  --color-shadow: rgba(0, 0, 0, 0);
+  --color-navbar-bg: rgba(19, 21, 25, 0.98);
+  --color-navbar-border: rgba(217, 209, 196, 0.3);
 
   --color-selection-bg: rgba(157, 192, 219, 0.28);
   --color-selection-fg: #f5f0e7;
@@ -114,23 +117,24 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --color-bg: #17191d;
-    --color-bg-soft: #1f232a;
-    --color-bg-panel: rgba(33, 37, 45, 0.82);
-    --color-bg-panel-strong: #1d2128;
-    --color-text: #ece8df;
-    --color-text-muted: #b8b2a8;
-    --color-text-faint: #8f928f;
-    --color-rule: #323843;
-    --color-rule-strong: #475060;
-    --color-accent: #9dc0db;
-    --color-accent-hover: #c2d8eb;
-    --color-accent-soft: rgba(157, 192, 219, 0.14);
-    --color-badge-bg: #38536b;
+    --color-bg: #131519;
+    --color-bg-soft: #1a1e24;
+    --color-bg-panel: #171b22;
+    --color-bg-panel-strong: #1b2028;
+    --color-text: #eeebe3;
+    --color-text-muted: #b9b1a5;
+    --color-text-faint: #8f958f;
+    --color-rule: #434a56;
+    --color-rule-strong: #d9d1c4;
+    --color-grid: rgba(217, 209, 196, 0.07);
+    --color-accent: #b5d0e4;
+    --color-accent-hover: #d5e4ef;
+    --color-accent-soft: rgba(181, 208, 228, 0.14);
+    --color-badge-bg: #28445a;
     --color-badge-fg: #edf1f5;
-    --color-shadow: rgba(0, 0, 0, 0.28);
-    --color-navbar-bg: rgba(23, 25, 29, 0.9);
-    --color-navbar-border: rgba(157, 192, 219, 0.12);
+    --color-shadow: rgba(0, 0, 0, 0);
+    --color-navbar-bg: rgba(19, 21, 25, 0.98);
+    --color-navbar-border: rgba(217, 209, 196, 0.3);
     --color-selection-bg: rgba(157, 192, 219, 0.28);
     --color-selection-fg: #f5f0e7;
   }

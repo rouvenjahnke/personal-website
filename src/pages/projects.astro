@@ -1,0 +1,75 @@
+---
+import Base from '~/layouts/Base.astro';
+import { PROJECT_CASE_STUDIES } from '~/data/profile';
+
+const description =
+  'Curated projects by Rouven Jahnke — mathematical tooling, knowledge systems, and academic infrastructure.';
+
+const categories = Array.from(
+  new Set(PROJECT_CASE_STUDIES.map((project) => project.category)),
+);
+---
+
+<Base title="Projects" description={description}>
+  <article class="prose prose--wide page-shell">
+    <header class="page-header">
+      <p class="page-header__eyebrow">Projects</p>
+      <h1>Selected systems and long-form builds</h1>
+      <p class="page-header__lede">
+        A curated layer above raw repositories. These entries are the projects
+        that best reflect how I work: mathematically, structurally, and with a
+        preference for durable infrastructure over short-lived demos.
+      </p>
+    </header>
+
+    <section class="stat-strip" aria-label="Project summary">
+      <div class="stat-strip__item">
+        <span class="stat-strip__value">{PROJECT_CASE_STUDIES.length}</span>
+        <span class="stat-strip__label">curated projects</span>
+      </div>
+      <div class="stat-strip__item">
+        <span class="stat-strip__value">{categories.length}</span>
+        <span class="stat-strip__label">working areas</span>
+      </div>
+      <div class="stat-strip__item">
+        <span class="stat-strip__value">1</span>
+        <span class="stat-strip__label">public research profile</span>
+      </div>
+    </section>
+
+    <section class="project-grid" aria-label="Project list">
+      {PROJECT_CASE_STUDIES.map((project) => (
+        <article class="project-card">
+          <div class="project-card__header">
+            <p class="panel__kicker">{project.category}</p>
+            <h2>{project.title}</h2>
+          </div>
+
+          <div class="project-card__meta">
+            <span class="tag">{project.period}</span>
+            <span class="tag">{project.status}</span>
+          </div>
+
+          <p class="project-card__summary">{project.summary}</p>
+
+          <ul class="compact-list">
+            {project.details.map((detail) => (
+              <li>{detail}</li>
+            ))}
+          </ul>
+
+          <div class="project-card__links">
+            <a href={project.primaryLink.href} rel="noopener noreferrer">
+              {project.primaryLink.label}
+            </a>
+            {project.secondaryLink && (
+              <a href={project.secondaryLink.href} rel="noopener noreferrer">
+                {project.secondaryLink.label}
+              </a>
+            )}
+          </div>
+        </article>
+      ))}
+    </section>
+  </article>
+</Base>

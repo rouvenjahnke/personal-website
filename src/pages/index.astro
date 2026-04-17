@@ -265,6 +265,19 @@ const formatRange = (start: string, end?: string): string => {
           </section>
 
           <section class="panel panel--muted">
+            <p class="panel__kicker">Systems</p>
+            <h2>Projects and repositories</h2>
+            <p>
+              The site now separates curated
+              <a href="/projects"> projects</a>
+              {' '}from the more literal
+              <a href="/repositories"> repository archive</a>,
+              following the functional logic of academic profile sites rather
+              than generic portfolio pages.
+            </p>
+          </section>
+
+          <section class="panel panel--muted">
             <p class="panel__kicker">Updates</p>
             <h2>Recent activity</h2>
             {recentUpdates.length === 0 ? (

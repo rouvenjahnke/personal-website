@@ -1,0 +1,66 @@
+---
+import Base from '~/layouts/Base.astro';
+import { OWNER } from '~/consts';
+import { REPOSITORY_CARDS } from '~/data/profile';
+
+const description =
+  'Selected public repositories of Rouven Jahnke.';
+---
+
+<Base title="Repositories" description={description}>
+  <article class="prose prose--wide page-shell">
+    <header class="page-header">
+      <p class="page-header__eyebrow">Repositories</p>
+      <h1>Public code archive</h1>
+      <p class="page-header__lede">
+        The repository layer is intentionally more literal than the projects page:
+        codebases, not narratives. It is the closer equivalent to the repository
+        view on the GitHub-based reference site.
+      </p>
+    </header>
+
+    <section class="repo-hero panel">
+      <div>
+        <p class="panel__kicker">GitHub profile</p>
+        <h2>@{OWNER.github}</h2>
+        <p>
+          Public repositories span academic infrastructure, mathematical tooling,
+          and file-based knowledge systems.
+        </p>
+      </div>
+      <div class="repo-hero__actions">
+        <a class="repo-hero__button" href={OWNER.githubUrl} rel="noopener noreferrer">
+          Open GitHub profile
+        </a>
+      </div>
+    </section>
+
+    <section class="repo-grid" aria-label="Repository cards">
+      {REPOSITORY_CARDS.map((repository) => (
+        <article class="repo-card">
+          <div class="repo-card__header">
+            <p class="panel__kicker">{repository.area}</p>
+            <h2>
+              <a href={repository.href} rel="noopener noreferrer">
+                {repository.name}
+              </a>
+            </h2>
+          </div>
+
+          <p class="repo-card__description">{repository.description}</p>
+
+          <dl class="repo-card__meta">
+            <div>
+              <dt>updated</dt>
+              <dd>{repository.updated}</dd>
+            </div>
+            <div>
+              <dt>stack</dt>
+              <dd>{repository.stack}</dd>
+            </div>
+          </dl>
+        </article>
+      ))}
+    </section>
+  </article>
+</Base>
