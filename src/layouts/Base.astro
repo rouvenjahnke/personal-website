@@ -3,9 +3,13 @@ import { SITE } from '~/consts';
 import SiteHeader from '~/components/SiteHeader.astro';
 import SiteFooter from '~/components/SiteFooter.astro';
 
-import '@fontsource-variable/eb-garamond/index.css';
-import '@fontsource-variable/eb-garamond/wght-italic.css';
-import '@fontsource-variable/inter/index.css';
+// Spectral, the closest practical replacement for ET Book on Fontsource.
+// Static weights only — variable Spectral isn't published. We load the
+// minimum viable set: 400 + italic for body, 600 + italic for emphasis.
+import '@fontsource/spectral/400.css';
+import '@fontsource/spectral/400-italic.css';
+import '@fontsource/spectral/600.css';
+import '@fontsource/spectral/600-italic.css';
 
 import '~/styles/tokens.css';
 import '~/styles/reset.css';

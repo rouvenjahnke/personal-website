@@ -1,5 +1,7 @@
 /*
-  Layout primitives. Single column, generous gutter, capped width.
+  Layout primitives — redesign/tufte.
+  Asymmetric layout: prose sits LEFT, the right side is reserved for
+  floated sidenotes (margin column) when the viewport is wide enough.
 */
 
 .site {
@@ -11,66 +13,52 @@
 .site__main {
   flex: 1 1 auto;
   width: 100%;
-  max-width: var(--site-width);
+  /* Wide enough on desktop to host body + gap + sidenote column. */
+  max-width: calc(var(--site-width) + var(--sidenote-width) + var(--sidenote-gap));
   margin-inline: auto;
   padding-inline: var(--gutter);
   padding-block: var(--space-2xl) var(--space-3xl);
-  /* Anti-overflow guard: long unbroken tokens (URLs, identifiers) must
-     not push the layout wider than the viewport. */
   overflow-wrap: break-word;
 }
 
-/* Body prose container — narrower than nav for optimal measure. */
 .prose {
   max-width: var(--measure);
-  /* Defensive: prevent inline overflow from oversized inline content. */
   min-width: 0;
 }
+.prose--wide { max-width: var(--measure-wide); min-width: 0; }
 
-.prose--wide {
-  max-width: var(--measure-wide);
-  min-width: 0;
-}
+.section { margin-block-start: var(--space-2xl); }
+.section:first-child { margin-block-start: 0; }
 
-/* Section break — used between page-level sections. */
-.section {
-  margin-block-start: var(--space-2xl);
-}
-
-.section:first-child {
-  margin-block-start: 0;
-}
-
-/* ── Page header (title + subtitle / metadata) ───────────────────────────── */
+/* ── Page header ──────────────────────────────────────────────────────── */
 .page-header {
   margin-block-end: var(--space-2xl);
 }
 
 .page-header__eyebrow {
-  font-family: var(--font-sans);
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-medium);
+  font-style: italic;
+  font-size: var(--fs-sm);
+  font-variant-caps: all-small-caps;
   letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
   color: var(--color-text-faint);
   margin-block-end: var(--space-xs);
 }
 
 .page-header__lede {
   font-size: var(--fs-md);
+  font-style: italic;
   color: var(--color-text-muted);
   max-width: var(--measure-narrow);
   margin-block-start: var(--space-sm);
 }
 
-/* ── Site header / nav ───────────────────────────────────────────────────── */
+/* ── Site header / nav ────────────────────────────────────────────────── */
 .site-header {
   border-bottom: var(--border-rule);
 }
-
 .site-header__inner {
   width: 100%;
-  max-width: var(--site-width);
+  max-width: calc(var(--site-width) + var(--sidenote-width) + var(--sidenote-gap));
   margin-inline: auto;
   padding: var(--space-md) var(--gutter);
   display: flex;
@@ -88,12 +76,7 @@
   letter-spacing: var(--tracking-tight);
   color: var(--color-text);
 }
-
-.site-title a {
-  color: inherit;
-  text-decoration: none;
-}
-
+.site-title a { color: inherit; text-decoration: none; }
 .site-title a:hover,
 .site-title a:focus-visible {
   text-decoration: underline;
@@ -102,10 +85,11 @@
 }
 
 .site-nav {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: var(--fs-sm);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--tracking-caps);
 }
-
 .site-nav__list {
   list-style: none;
   margin: 0;
@@ -114,11 +98,7 @@
   flex-wrap: wrap;
   gap: var(--space-md);
 }
-
-.site-nav__list li {
-  margin: 0;
-}
-
+.site-nav__list li { margin: 0; }
 .site-nav a {
   color: var(--color-text-muted);
   text-decoration: none;
@@ -126,74 +106,66 @@
   border-bottom: 1px solid transparent;
   transition: color var(--transition-fast), border-color var(--transition-fast);
 }
-
 .site-nav a:hover {
   color: var(--color-text);
   border-bottom-color: var(--color-rule);
 }
-
 .site-nav a[aria-current='page'] {
   color: var(--color-text);
-  border-bottom-color: var(--color-accent);
+  border-bottom-color: var(--color-text-muted);
 }
 
-/* ── Site footer ─────────────────────────────────────────────────────────── */
+/* ── Site footer ──────────────────────────────────────────────────────── */
 .site-footer {
   border-top: var(--border-rule);
   margin-block-start: var(--space-3xl);
   padding-block: var(--space-lg);
 }
-
 .site-footer__inner {
   width: 100%;
-  max-width: var(--site-width);
+  max-width: calc(var(--site-width) + var(--sidenote-width) + var(--sidenote-gap));
   margin-inline: auto;
   padding-inline: var(--gutter);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--space-md);
-  font-family: var(--font-sans);
-  font-size: var(--fs-xs);
+  font-style: italic;
+  font-size: var(--fs-sm);
   color: var(--color-text-faint);
 }
-
 .site-footer a {
   color: var(--color-text-muted);
   text-decoration-color: var(--color-rule);
 }
+.site-footer__legal {
+  font-style: normal;
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--tracking-caps);
+}
 
-/* ── Chronological entry list (papers, talks, notes index) ───────────────── */
+/* ── Chronological entry list ─────────────────────────────────────────── */
 .entry-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-
 .entry-list > li {
   margin: 0;
   padding-block: var(--space-md);
-  border-bottom: var(--border-rule);
+  border-bottom: 1px dotted var(--color-rule);
   display: grid;
-  grid-template-columns: 5rem 1fr;
+  grid-template-columns: 6rem 1fr;
   column-gap: var(--space-lg);
   align-items: baseline;
 }
-
-.entry-list > li:last-child {
-  border-bottom: none;
-}
+.entry-list > li:last-child { border-bottom: none; }
 
 .entry-list__date {
-  font-family: var(--font-sans);
+  font-style: italic;
   font-size: var(--fs-sm);
-  font-variant-numeric: lining-nums tabular-nums;
+  font-variant-numeric: oldstyle-nums tabular-nums;
   color: var(--color-text-faint);
-  letter-spacing: var(--tracking-wide);
-}
-
-.entry-list__body {
-  /* containing block for title + meta */
 }
 
 .entry-list__title {
@@ -203,43 +175,36 @@
   margin: 0;
   line-height: var(--lh-snug);
 }
-
 .entry-list__meta {
   display: block;
   margin-block-start: var(--space-2xs);
-  font-family: var(--font-sans);
+  font-style: italic;
   font-size: var(--fs-sm);
   color: var(--color-text-muted);
 }
 
-/* Year heading inside an entry list section. */
 .year-heading {
-  font-family: var(--font-sans);
-  font-size: var(--fs-sm);
-  font-weight: var(--fw-semibold);
-  letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
-  color: var(--color-text-faint);
+  font-family: var(--font-serif);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-regular);
+  font-style: italic;
+  font-variant-numeric: oldstyle-nums tabular-nums;
+  color: var(--color-text-muted);
   margin-block: var(--space-2xl) var(--space-xs);
   padding-block-end: var(--space-xs);
   border-bottom: 1px solid var(--color-rule-strong);
-  font-variant-numeric: lining-nums tabular-nums;
 }
+.year-heading:first-of-type { margin-block-start: 0; }
 
-.year-heading:first-of-type {
-  margin-block-start: 0;
-}
-
-/* ── Inline metadata row (single line of light text) ─────────────────────── */
+/* ── Inline metadata row ──────────────────────────────────────────────── */
 .meta-row {
-  font-family: var(--font-sans);
+  font-style: italic;
   font-size: var(--fs-sm);
   color: var(--color-text-muted);
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-md);
 }
-
 .meta-row > * + *::before {
   content: '·';
   margin-inline-end: var(--space-sm);
@@ -247,16 +212,13 @@
   color: var(--color-text-faint);
 }
 
-/* ── Responsive adjustments ──────────────────────────────────────────────── */
+/* ── Responsive ───────────────────────────────────────────────────────── */
 @media (max-width: 36rem) {
   .entry-list > li {
     grid-template-columns: 1fr;
     row-gap: var(--space-2xs);
   }
-
-  .entry-list__date {
-    order: -1;
-  }
+  .entry-list__date { order: -1; }
 
   .site-header__inner {
     flex-direction: column;

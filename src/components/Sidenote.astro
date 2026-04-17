@@ -1,0 +1,37 @@
+---
+/**
+ * Sidenote — Tufte-style margin note.
+ *
+ * Usage in MDX:
+ *
+ *   import Sidenote from '~/components/Sidenote.astro';
+ *
+ *   The argument is short.<Sidenote num={1}>The full
+ *   proof is in [Hartshorne, II.7].</Sidenote> Once one
+ *   accepts the formalism…
+ *
+ * Rendering:
+ *   - A small <sup> reference number is placed inline.
+ *   - The note itself is an <aside role="note"> in source order so that
+ *     screen readers and no-JS users always encounter it inline.
+ *   - On desktop (≥ 76 rem viewport) CSS floats the aside into the right
+ *     margin via a negative right-margin trick (see styles/base.css,
+ *     `.sidenote` rules).
+ *   - On narrower viewports the aside renders as an indented inline block
+ *     immediately after the reference. No checkbox toggle, no JS.
+ */
+
+interface Props {
+  num: number;
+}
+const { num } = Astro.props;
+const refId = `sn-ref-${num}`;
+const noteId = `sn-${num}`;
+---
+
+<sup class="sn-ref" id={refId}>
+  <a href={`#${noteId}`} aria-describedby={noteId}>{num}</a>
+</sup><aside class="sidenote" role="note" id={noteId} aria-labelledby={refId}>
+  <span class="sidenote__num" aria-hidden="true">{num}.</span>
+  <slot />
+</aside>
