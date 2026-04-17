@@ -2,74 +2,113 @@
 import Base from '~/layouts/Base.astro';
 
 const description =
-  'Research interests of Rouven Jahnke — early-career, focused on algebraic geometry.';
+  'Research interests of Rouven Jahnke — algebraic geometry, classical projective geometry, and expository mathematical writing.';
 ---
 
 <Base title="Research" description={description}>
-  <article class="prose">
+  <article class="prose prose--wide page-shell">
     <header class="page-header">
       <p class="page-header__eyebrow">Research</p>
-      <h1>Interests</h1>
+      <h1>Working direction</h1>
       <p class="page-header__lede">
-        I am at the very beginning of mathematical research. What follows is
-        a working description of where my reading and writing currently sit.
+        A provisional statement of the mathematics that currently structures my
+        reading, note-taking, and longer-term ambitions.
       </p>
     </header>
 
-    <p>
-      [PLACEHOLDER: research_statement] Broadly, my interests lie in <em>algebraic
-      geometry</em>: the geometry of solution sets of polynomial equations,
-      studied through the language of schemes and sheaves. I am drawn to the
-      classical end of the subject — concrete varieties, intersection-theoretic
-      counts, and theorems whose statements would have made sense to Cayley or
-      Salmon, even when the modern proofs are very different.
-    </p>
+    <div class="page-grid">
+      <div class="page-grid__main">
+        <section class="panel">
+          <p class="panel__kicker">Statement</p>
+          <h2>Orientation</h2>
+          <p>
+            My interests lie in algebraic geometry, especially where classical
+            concrete questions survive inside modern language. I am drawn to
+            problems whose statements are still geometric and explicit, even
+            when the methods needed to study them pass through schemes,
+            sheaves, or intersection-theoretic machinery.
+          </p>
+          <p>
+            At the moment this is less a finished research programme than a
+            disciplined direction of travel. I am still building foundations,
+            but the goal is not vague: become technically strong enough to
+            move from expository reconstruction to original questions.
+          </p>
+        </section>
 
-    <p>
-      A particular fascination is the configuration of the twenty-seven lines
-      on a smooth cubic surface, and more generally the way that small
-      finite invariants — character tables, Weyl groups, marked configurations —
-      arise from the geometry of low-dimensional varieties.
-    </p>
+        <section class="panel">
+          <p class="panel__kicker">Themes</p>
+          <h2>Current themes</h2>
+          <div class="insight-grid">
+            <article class="insight-card">
+              <h3>Classical configurations</h3>
+              <p>
+                The configuration of the twenty-seven lines on a smooth cubic
+                surface is a recurring point of entry: concrete, finite, and
+                rich enough to connect geometry, symmetry, and computation.
+              </p>
+            </article>
+            <article class="insight-card">
+              <h3>Intersection-theoretic methods</h3>
+              <p>
+                I am interested in arguments where enumerative facts emerge from
+                characteristic classes, Chow rings, or deformation-theoretic
+                counts.
+              </p>
+            </article>
+            <article class="insight-card">
+              <h3>Expository reconstruction</h3>
+              <p>
+                Public notes are part of the method. Writing is how I test
+                whether a theorem is actually understood rather than merely
+                recognised.
+              </p>
+            </article>
+          </div>
+        </section>
 
-    <h2>Currently reading</h2>
-    <ul>
-      <li>
-        Hartshorne, <em>Algebraic Geometry</em>, Chapters
-        <abbr>II</abbr>–<abbr>III</abbr>.
-      </li>
-      <li>
-        Eisenbud and Harris, <em>3264 and All That: Intersection Theory in
-        Algebraic Geometry</em>.
-      </li>
-      <li>
-        Vakil, <em>The Rising Sea: Foundations of Algebraic Geometry</em>
-        (used as a parallel text).
-      </li>
-    </ul>
+        <section class="panel">
+          <p class="panel__kicker">Programme</p>
+          <h2>Near-term objectives</h2>
+          <ul class="compact-list">
+            <li>Work through Hartshorne II–III with enough fluency to reuse the language without hesitation.</li>
+            <li>Turn the cubic-surface note into a fuller intersection-theoretic exposition.</li>
+            <li>Read more systematically around del Pezzo surfaces and related classical geometry.</li>
+            <li>Strengthen the algebraic background needed for serious later work in geometry.</li>
+          </ul>
+        </section>
+      </div>
 
-    <h2>Projects</h2>
-    <p>
-      No standalone research projects to report yet. Working notes appear under
-      <a href="/notes">notes</a>; I expect this section to gain content over the
-      first year of the <abbr>BSc</abbr>.
-    </p>
+      <aside class="aside-stack">
+        <section class="panel panel--muted">
+          <p class="panel__kicker">Reading</p>
+          <h2>Current reading</h2>
+          <ul class="compact-list">
+            <li>Hartshorne, <em>Algebraic Geometry</em>.</li>
+            <li>Eisenbud and Harris, <em>3264 and All That</em>.</li>
+            <li>Vakil, <em>The Rising Sea</em>.</li>
+          </ul>
+        </section>
 
-    <h2>In progress</h2>
-    <ul>
-      <li>[PLACEHOLDER: in-progress item — exposition of the Schläfli double-six.]</li>
-      <li>[PLACEHOLDER: in-progress item.]</li>
-    </ul>
+        <section class="panel panel--muted">
+          <p class="panel__kicker">Method</p>
+          <h2>Working principles</h2>
+          <ul class="compact-list">
+            <li>Prefer explicit examples when learning new abstraction.</li>
+            <li>Write in public only what I am willing to revise carefully.</li>
+            <li>Treat exposition as preparation for later research, not as a substitute for it.</li>
+          </ul>
+        </section>
 
-    <hr />
-
-    <p>
-      <small>
-        I am a first-generation student at the start of my undergraduate
-        studies. Anything described here as &ldquo;in progress&rdquo; should
-        be read accordingly. Corrections are very welcome — see
-        <a href="/contact">contact</a>.
-      </small>
-    </p>
+        <section class="panel panel--muted">
+          <p class="panel__kicker">Status</p>
+          <h2>Research stage</h2>
+          <p>
+            This is an early-stage profile. The site documents preparation for a
+            research career rather than claiming one already completed.
+          </p>
+        </section>
+      </aside>
+    </div>
   </article>
 </Base>

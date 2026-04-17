@@ -7,5 +7,5 @@ venue: '[PLACEHOLDER: journal name]'
 links:
   pdf: 'https://example.org/[PLACEHOLDER]/survey.pdf'
 order: 50
-draft: false
+draft: true
 ---

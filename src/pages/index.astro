@@ -5,193 +5,301 @@ import { OWNER } from '~/consts';
 import { getCollection } from 'astro:content';
 
 const description =
-  'Rouven Jahnke — incoming BSc Mathematics student at Universität Bonn (October 2026), currently Frühstudent at Universität Hamburg, working in algebraic geometry.';
+  'Academic website of Rouven Jahnke — mathematics student in formation, working toward research in algebraic geometry.';
 
-// Pull recent notes for the "news" / "latest posts" tables. The al-folio
-// home page populates these from `_news/*.md` and `_posts/*.md`; here we
-// reuse the existing `notes` collection so the sketch shows real content
-// the moment a new note is added.
-const allNotes = (await getCollection('notes', ({ data }) => !data.draft))
-  .sort((a, b) => +b.data.date - +a.data.date);
+const allNotes = (await getCollection('notes', ({ data }) => !data.draft)).sort(
+  (a, b) => +b.data.date - +a.data.date,
+);
 
-const news        = allNotes.slice(0, 3);
-const latestPosts = allNotes.slice(0, 4);
+const selectedNotes = allNotes.slice(0, 3);
+const recentUpdates = allNotes.slice(0, 4);
 
-let publications: Awaited<ReturnType<typeof getCollection<'papers'>>> = [];
-try {
-  publications = (await getCollection('papers'))
-    .sort((a, b) => (a.data.year < b.data.year ? 1 : -1))
-    .slice(0, 3);
-} catch (_) {
-  // collection may not exist yet — degrade silently
-}
+const trajectory = (
+  await getCollection(
+    'cv',
+    ({ data }) =>
+      !data.draft && (data.section === 'education' || data.section === 'experience'),
+  )
+).sort((a, b) => {
+  if (b.data.order !== a.data.order) return b.data.order - a.data.order;
+  return (b.data.start ?? '').localeCompare(a.data.start ?? '');
+}).slice(0, 4);
 
-const fmtNews = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric', month: 'short', day: '2-digit',
+const fmtNews = new Intl.DateTimeFormat('en-GB', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
 });
+
+const fmtMonth = new Intl.DateTimeFormat('en-GB', {
+  year: 'numeric',
+  month: 'short',
+});
+
+const fmtDay = new Intl.DateTimeFormat('en-GB', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+
+const parsePartialDate = (value: string): Date | null => {
+  if (/^\d{4}$/.test(value)) {
+    return new Date(Date.UTC(Number(value), 0, 1));
+  }
+  if (/^\d{4}-\d{2}$/.test(value)) {
+    const [yearText, monthText] = value.split('-');
+    const year = Number(yearText);
+    const month = Number(monthText);
+    if (Number.isNaN(year) || Number.isNaN(month)) return null;
+    return new Date(Date.UTC(year, month - 1, 1));
+  }
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    return new Date(`${value}T00:00:00Z`);
+  }
+  return null;
+};
+
+const formatMoment = (value: string): string => {
+  if (value === '—') return value;
+  if (/^\d{4}$/.test(value)) return value;
+  const parsed = parsePartialDate(value);
+  if (!parsed) return value;
+  if (/^\d{4}-\d{2}$/.test(value)) return fmtMonth.format(parsed);
+  return fmtDay.format(parsed);
+};
+
+const formatRange = (start: string, end?: string): string => {
+  if (!end) return formatMoment(start);
+  if (end === 'present') return `${formatMoment(start)} – present`;
+  return `${formatMoment(start)} – ${formatMoment(end)}`;
+};
 ---
 
 <Base description={description}>
-  <div class="container">
-    <article class="post">
-      <header class="post-header">
-        <h1 class="post-title">
-          <strong>Rouven</strong> Jahnke
-        </h1>
-        <p class="desc">
-          Frühstudent at <a href="https://www.math.uni-hamburg.de" rel="external noopener">Universität Hamburg</a>.
-          From October 2026, BSc Mathematics at <a href="https://www.mathematics.uni-bonn.de" rel="external noopener">Universität Bonn</a>.
-          Algebraic geometry.
-        </p>
-      </header>
+  <div class="container home-page">
+    <article class="home">
+      <header class="hero">
+        <div class="hero__copy">
+          <p class="hero__eyebrow">Academic Dossier</p>
+          <h1 class="hero__title">Rouven Jahnke</h1>
+          <p class="hero__lead">
+            Mathematics student in formation, working toward a research career
+            in algebraic geometry.
+          </p>
+          <p>
+            I am currently completing secondary school in Hamburg while taking
+            university-level coursework in algebra, algebraic geometry, and
+            topology as a <em>Frühstudent</em> at the Universität Hamburg.
+          </p>
+          <p>
+            From October 2026 I will begin the <abbr title="Bachelor of Science">BSc</abbr>
+            Mathematics programme at the Universität Bonn. The long arc is clear:
+            build rigorous foundations early, write publicly as I learn, and move
+            step by step toward doctoral work in pure mathematics.
+          </p>
+          <div class="hero__meta">
+            <span class="hero__meta-item">Hamburg / Bonn</span>
+            <span class="hero__meta-item">Algebraic geometry</span>
+            <span class="hero__meta-item">Expository notes</span>
+            <span class="hero__meta-item">Tutoring & outreach</span>
+          </div>
+        </div>
 
-      <section class="clearfix">
-        <aside class="profile profile--right">
-          <figure>
+        <aside class="dossier panel">
+          <figure class="dossier__portrait">
             <img
-              class="profile__img"
+              class="dossier__image"
               src="/prof_pic.svg"
-              alt="Profile photo of Rouven Jahnke"
-              width="270"
-              height="270"
+              alt="Profile placeholder of Rouven Jahnke"
+              width="320"
+              height="320"
               loading="eager"
             />
           </figure>
-          <div class="profile__more more-info">
-            <p>{OWNER.currentAffiliation}</p>
-            <p>Bundesstraße 55</p>
-            <p>20146 Hamburg</p>
+
+          <div class="dossier__block">
+            <p class="panel__kicker">Current Status</p>
+            <p class="dossier__headline">
+              Frühstudent in mathematics at {OWNER.currentAffiliation}
+            </p>
+            <p class="dossier__text">
+              BSc Mathematics at {OWNER.futureAffiliation} from {OWNER.startsBonn}.
+            </p>
           </div>
+
+          <dl class="detail-grid">
+            <div class="detail-grid__item">
+              <dt class="detail-grid__label">Focus</dt>
+              <dd class="detail-grid__value">Schemes, sheaves, cubic surfaces</dd>
+            </div>
+            <div class="detail-grid__item">
+              <dt class="detail-grid__label">Writing mode</dt>
+              <dd class="detail-grid__value">Public notes and technical drafts</dd>
+            </div>
+            <div class="detail-grid__item">
+              <dt class="detail-grid__label">Location</dt>
+              <dd class="detail-grid__value">Hamburg, Germany</dd>
+            </div>
+            <div class="detail-grid__item">
+              <dt class="detail-grid__label">Languages</dt>
+              <dd class="detail-grid__value">German, English, mathematical French</dd>
+            </div>
+          </dl>
         </aside>
+      </header>
 
-        <p>
-          I am a first-generation mathematics student currently taking
-          <abbr title="Master of Science">MSc</abbr>-level courses in algebra,
-          algebraic geometry, and topology as a <em>Frühstudent</em> at the
-          Universität Hamburg. From October 2026 I will begin the
-          <abbr title="Bachelor of Science">BSc</abbr> programme in
-          mathematics at the Universität Bonn, with the long-term aim of
-          pursuing doctoral research in algebraic geometry.
-        </p>
-        <p>
-          My interests sit, broadly, around schemes and sheaves, intersection
-          theory, and classical results that connect the two — for instance,
-          the configuration of the twenty-seven lines on a smooth cubic
-          surface. I am at an early stage and most of what appears here is
-          in progress; corrections are welcome.
-        </p>
-        <p>
-          Outside the lecture hall I run the
-          <a href="https://youtube.com/@MaPhy-Club" rel="external noopener">MaPhy-Club</a>
-          on YouTube, and tutor Oberstufe mathematics through
-          <a href="https://lern-fair.de" rel="external noopener">Lern-Fair</a>.
-        </p>
-      </section>
+      <div class="home-grid">
+        <div class="home-grid__main">
+          <section class="panel">
+            <p class="panel__kicker">Orientation</p>
+            <h2>Research trajectory</h2>
+            <div class="insight-grid">
+              <article class="insight-card">
+                <h3>Training</h3>
+                <p>
+                  University mathematics started early and deliberately:
+                  advanced coursework alongside school, with emphasis on proof,
+                  abstraction, and long-form reading.
+                </p>
+              </article>
+              <article class="insight-card">
+                <h3>Present focus</h3>
+                <p>
+                  The current centre of gravity is algebraic geometry,
+                  especially the interface between classical projective
+                  problems and modern language.
+                </p>
+              </article>
+              <article class="insight-card">
+                <h3>Long horizon</h3>
+                <p>
+                  The aim is a sustained research profile that can mature into
+                  doctoral work: careful foundations first, then sharper
+                  questions, then original mathematics.
+                </p>
+              </article>
+            </div>
+          </section>
 
-      {news.length > 0 && (
-        <section>
-          <h2><a href="/notes" style="color: inherit">news</a></h2>
-          <div class="news news-table">
-            <table class="table table-sm table-borderless">
-              <tbody>
-                {news.map((n) => (
-                  <tr>
-                    <th scope="row">
-                      <time datetime={n.data.date.toISOString()}>
-                        {fmtNews.format(n.data.date)}
+          <section class="panel">
+            <p class="panel__kicker">Writing</p>
+            <h2>Selected notes</h2>
+            {selectedNotes.length === 0 ? (
+              <p class="empty-state">No public notes yet.</p>
+            ) : (
+              <ul class="record-list" role="list">
+                {selectedNotes.map((note) => (
+                  <li class="record">
+                    <div class="record__badge">
+                      <time datetime={note.data.date.toISOString()}>
+                        {fmtNews.format(note.data.date)}
                       </time>
-                    </th>
-                    <td>
-                      <a class="news-title" href={`/notes/${n.id}`}>{n.data.title}</a>
-                    </td>
-                  </tr>
+                    </div>
+                    <div class="record__body">
+                      <a class="record__title" href={`/notes/${note.id}`}>
+                        {note.data.title}
+                      </a>
+                      {note.data.summary && (
+                        <p class="record__summary">{note.data.summary}</p>
+                      )}
+                    </div>
+                  </li>
                 ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      )}
+              </ul>
+            )}
+            <p class="panel__note">
+              Formal preprints and publications will appear here once they
+              exist. Until then, the public record remains intentionally
+              note-first.
+            </p>
+          </section>
 
-      {latestPosts.length > 0 && (
-        <section>
-          <h2><a href="/notes" style="color: inherit">latest posts</a></h2>
-          <div class="news news-table">
-            <table class="table table-sm table-borderless">
-              <tbody>
-                {latestPosts.map((p) => (
-                  <tr>
-                    <th scope="row">
-                      <time datetime={p.data.date.toISOString()}>
-                        {fmtNews.format(p.data.date)}
-                      </time>
-                    </th>
-                    <td>
-                      <a class="news-title" href={`/notes/${p.id}`}>{p.data.title}</a>
-                      {p.data.summary && (
-                        <p style="margin: 0.25rem 0 0; font-size: 0.92em; color: var(--color-text-muted);">
-                          {p.data.summary}
+          <section class="panel">
+            <p class="panel__kicker">Record</p>
+            <h2>Academic path</h2>
+            {trajectory.length === 0 ? (
+              <p class="empty-state">CV entries will appear here as they are added.</p>
+            ) : (
+              <ul class="record-list record-list--timeline" role="list">
+                {trajectory.map((entry) => (
+                  <li class="record">
+                    <div class="record__badge">{formatRange(entry.data.start, entry.data.end)}</div>
+                    <div class="record__body">
+                      <span class="record__title">{entry.data.title}</span>
+                      {(entry.data.organization || entry.data.location) && (
+                        <p class="record__meta">
+                          {entry.data.organization}
+                          {entry.data.organization && entry.data.location && ' · '}
+                          {entry.data.location}
                         </p>
                       )}
-                    </td>
-                  </tr>
+                    </div>
+                  </li>
                 ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      )}
-
-      <section>
-        <h2><a href="/writing" style="color: inherit">selected publications</a></h2>
-        <div class="publications">
-          <ol class="bibliography">
-            {publications.length === 0 ? (
-              <li style="grid-template-columns: 1fr;">
-                <p style="margin: 0; color: var(--color-text-muted); font-style: italic;">
-                  No preprints yet. Expository notes are listed under
-                  <a href="/writing">publications</a>.
-                </p>
-              </li>
-            ) : (
-              publications.map((paper) => (
-                <li>
-                  <div>
-                    <span class="bib-badge">{paper.data.year}</span>
-                  </div>
-                  <div>
-                    <h3 class="bib-title">{paper.data.title}</h3>
-                    <div class="bib-author">
-                      {paper.data.authors?.map((a, i) => (
-                        <>
-                          {i > 0 && ', '}
-                          {a === OWNER.fullName ? <em>{a}</em> : a}
-                        </>
-                      ))}
-                    </div>
-                    {(paper.data.venue ?? paper.data.status) && (
-                      <div class="bib-periodical">
-                        {paper.data.venue ?? paper.data.status}
-                      </div>
-                    )}
-                    <div class="bib-links">
-                      {paper.data.links.pdf && <a href={paper.data.links.pdf}>PDF</a>}
-                      {paper.data.links.arxiv && (
-                        <a href={`https://arxiv.org/abs/${paper.data.links.arxiv}`} rel="external noopener">arXiv</a>
-                      )}
-                      {paper.data.links.doi && (
-                        <a href={`https://doi.org/${paper.data.links.doi}`} rel="external noopener">DOI</a>
-                      )}
-                      {paper.data.links.url && (
-                        <a href={paper.data.links.url} rel="external noopener">HTML</a>
-                      )}
-                    </div>
-                  </div>
-                </li>
-              ))
+              </ul>
             )}
-          </ol>
+          </section>
         </div>
-      </section>
+
+        <aside class="aside-stack">
+          <section class="panel panel--muted">
+            <p class="panel__kicker">Reading Programme</p>
+            <h2>Current reading</h2>
+            <ul class="compact-list">
+              <li>Hartshorne, <em>Algebraic Geometry</em>, Chapters II–III.</li>
+              <li>Eisenbud–Harris, <em>3264 and All That</em>.</li>
+              <li>Vakil, <em>The Rising Sea</em>, as a parallel reference.</li>
+            </ul>
+          </section>
+
+          <section class="panel panel--muted">
+            <p class="panel__kicker">Keywords</p>
+            <h2>Research areas</h2>
+            <div class="tag-list" aria-label="Research topics">
+              <span class="tag">algebraic geometry</span>
+              <span class="tag">intersection theory</span>
+              <span class="tag">cubic surfaces</span>
+              <span class="tag">classical projective geometry</span>
+              <span class="tag">expository writing</span>
+            </div>
+          </section>
+
+          <section class="panel panel--muted">
+            <p class="panel__kicker">Updates</p>
+            <h2>Recent activity</h2>
+            {recentUpdates.length === 0 ? (
+              <p class="empty-state">No public updates yet.</p>
+            ) : (
+              <ul class="mini-list" role="list">
+                {recentUpdates.map((note) => (
+                  <li class="mini-list__item">
+                    <time class="mini-list__date" datetime={note.data.date.toISOString()}>
+                      {fmtNews.format(note.data.date)}
+                    </time>
+                    <a href={`/notes/${note.id}`}>{note.data.title}</a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+
+          <section class="panel panel--muted">
+            <p class="panel__kicker">Teaching</p>
+            <h2>Outreach and tutoring</h2>
+            <p>
+              I tutor <em>Oberstufe</em> mathematics through
+              <a href="https://www.lern-fair.de" rel="external noopener">
+                {' '}Lern-Fair
+              </a>
+              {' '}and run the
+              <a href="https://youtube.com/@MaPhy-Club" rel="external noopener">
+                {' '}MaPhy-Club
+              </a>
+              {' '}YouTube channel for mathematics and physics.
+            </p>
+          </section>
+        </aside>
+      </div>
 
       <SocialIcons />
     </article>

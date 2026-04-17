@@ -2,39 +2,98 @@
 import Base from '~/layouts/Base.astro';
 
 const description =
-  'Tutoring, teaching, and outreach work by Rouven Jahnke.';
+  'Teaching, tutoring, and outreach by Rouven Jahnke.';
 ---
 
 <Base title="Teaching" description={description}>
-  <article class="prose">
+  <article class="prose prose--wide page-shell">
     <header class="page-header">
       <p class="page-header__eyebrow">Teaching</p>
       <h1>Tutoring and outreach</h1>
+      <p class="page-header__lede">
+        Most teaching work so far has taken the form of one-to-one tutoring and
+        mathematically oriented outreach rather than formal university instruction.
+      </p>
     </header>
 
-    <h2>Tutoring</h2>
-    <dl>
-      <dt>Since 2024</dt>
-      <dd>
-        <strong>Volunteer mathematics tutor,</strong>
-        <a href="https://www.lern-fair.de" rel="noopener noreferrer">Lern-Fair&nbsp;e.&thinsp;V.</a>
-        One-to-one online tutoring for <em>Oberstufe</em> students preparing
-        for the <em>Abitur</em>. Mostly algebra, analysis, and analytic
-        geometry.
-      </dd>
-    </dl>
+    <div class="page-grid">
+      <div class="page-grid__main">
+        <section class="panel">
+          <p class="panel__kicker">Current work</p>
+          <h2>Tutoring</h2>
+          <ul class="record-list" role="list">
+            <li class="record">
+              <div class="record__badge">since 2024</div>
+              <div class="record__body">
+                <span class="record__title">Volunteer mathematics tutor</span>
+                <p class="record__meta">
+                  <a href="https://www.lern-fair.de" rel="noopener noreferrer">
+                    Lern-Fair e.&thinsp;V.
+                  </a>
+                  {' '}· remote
+                </p>
+                <p class="record__summary">
+                  One-to-one support for <em>Oberstufe</em> students preparing
+                  for the <em>Abitur</em>, especially in algebra, analysis, and
+                  analytic geometry.
+                </p>
+              </div>
+            </li>
+          </ul>
+        </section>
 
-    <h2>Teaching assistantships</h2>
-    <p>
-      [PLACEHOLDER: future TA positions.] None yet — the <abbr>BSc</abbr>
-      programme begins in October 2026.
-    </p>
+        <section class="panel">
+          <p class="panel__kicker">Pedagogy</p>
+          <h2>Teaching approach</h2>
+          <div class="insight-grid">
+            <article class="insight-card">
+              <h3>Concept before routine</h3>
+              <p>
+                I try to stabilise definitions, patterns, and proof ideas before
+                drilling techniques in isolation.
+              </p>
+            </article>
+            <article class="insight-card">
+              <h3>Bridge-building</h3>
+              <p>
+                Much of the work is translating between school mathematics and
+                the more structural viewpoint students will later meet at university.
+              </p>
+            </article>
+            <article class="insight-card">
+              <h3>Writing as understanding</h3>
+              <p>
+                Notes, worked examples, and explicit formulations usually reveal
+                misunderstandings faster than verbal explanation alone.
+              </p>
+            </article>
+          </div>
+        </section>
+      </div>
 
-    <h2>Notes for students</h2>
-    <p>
-      Working notes are published under <a href="/notes">notes</a>. They are
-      written for my own clarification first; if any are useful to a student,
-      so much the better.
-    </p>
+      <aside class="aside-stack">
+        <section class="panel panel--muted">
+          <p class="panel__kicker">Outreach</p>
+          <h2>Public-facing work</h2>
+          <p>
+            I run the
+            <a href="https://youtube.com/@MaPhy-Club" rel="noopener noreferrer">
+              {' '}MaPhy-Club
+            </a>
+            {' '}channel, which serves as a lightweight platform for mathematical
+            and physical exposition outside formal teaching settings.
+          </p>
+        </section>
+
+        <section class="panel panel--muted">
+          <p class="panel__kicker">Institutional role</p>
+          <h2>University teaching</h2>
+          <p>
+            No teaching assistantships or formal university teaching appointments yet.
+            That stage begins later in the academic path.
+          </p>
+        </section>
+      </aside>
+    </div>
   </article>
 </Base>

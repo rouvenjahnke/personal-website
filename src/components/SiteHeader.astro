@@ -17,11 +17,14 @@ const [first, ...rest] = SITE.name.split(' ');
 const last = rest.join(' ');
 ---
 
-<header role="banner">
+<header class="site-header" role="banner">
   <nav class="navbar" aria-label="Primary">
     <div class="container navbar__inner">
       <a class="navbar__brand" href="/" rel="home">
-        <strong>{first}</strong>{last ? ' ' + last : ''}
+        <span class="navbar__brand-name">
+          <strong>{first}</strong>{last ? ' ' + last : ''}
+        </span>
+        <span class="navbar__brand-meta">mathematics · algebraic geometry</span>
       </a>
       <ul class="navbar__nav" role="list">
         {NAV.map((item) => (

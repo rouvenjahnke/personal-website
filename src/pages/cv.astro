@@ -1,6 +1,6 @@
 ---
 import Base from '~/layouts/Base.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import { OWNER } from '~/consts';
 
 const description = `Curriculum Vitae of ${OWNER.fullName}.`;
@@ -25,14 +25,25 @@ const sectionLabels: Record<(typeof sectionOrder)[number], string> = {
   skills: 'Skills',
 };
 
-const entries = await getCollection('cv', ({ data }) => !data.draft);
+const rawEntries = await getCollection('cv', ({ data }) => !data.draft);
+
+const entries = await Promise.all(
+  rawEntries.map(async (entry) => {
+    const rendered = entry.body?.trim() ? await render(entry) : null;
+    return {
+      ...entry,
+      Content: rendered?.Content ?? null,
+    };
+  }),
+);
 
 const grouped = new Map<string, typeof entries>();
-for (const e of entries) {
-  const arr = grouped.get(e.data.section) ?? [];
-  arr.push(e);
-  grouped.set(e.data.section, arr);
+for (const entry of entries) {
+  const arr = grouped.get(entry.data.section) ?? [];
+  arr.push(entry);
+  grouped.set(entry.data.section, arr);
 }
+
 for (const arr of grouped.values()) {
   arr.sort((a, b) => {
     if (b.data.order !== a.data.order) return b.data.order - a.data.order;
@@ -40,57 +51,161 @@ for (const arr of grouped.values()) {
   });
 }
 
+const visibleSections = sectionOrder.filter(
+  (section) => (grouped.get(section)?.length ?? 0) > 0,
+);
+
+const fmtMonth = new Intl.DateTimeFormat('en-GB', {
+  year: 'numeric',
+  month: 'short',
+});
+
+const fmtDay = new Intl.DateTimeFormat('en-GB', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+
+const parsePartialDate = (value: string): Date | null => {
+  if (/^\d{4}$/.test(value)) {
+    return new Date(Date.UTC(Number(value), 0, 1));
+  }
+  if (/^\d{4}-\d{2}$/.test(value)) {
+    const [yearText, monthText] = value.split('-');
+    const year = Number(yearText);
+    const month = Number(monthText);
+    if (Number.isNaN(year) || Number.isNaN(month)) return null;
+    return new Date(Date.UTC(year, month - 1, 1));
+  }
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    return new Date(`${value}T00:00:00Z`);
+  }
+  return null;
+};
+
+const formatMoment = (value: string): string => {
+  if (value === '—') return value;
+  if (/^\d{4}$/.test(value)) return value;
+  const parsed = parsePartialDate(value);
+  if (!parsed) return value;
+  if (/^\d{4}-\d{2}$/.test(value)) return fmtMonth.format(parsed);
+  return fmtDay.format(parsed);
+};
+
 const formatRange = (start: string, end?: string): string => {
-  if (!end) return start;
-  if (end === 'present') return `${start}\u2009–\u2009present`;
-  return `${start}\u2009–\u2009${end}`;
+  if (!end) return formatMoment(start);
+  if (end === 'present') return `${formatMoment(start)} – present`;
+  return `${formatMoment(start)} – ${formatMoment(end)}`;
 };
 ---
 
 <Base title="CV" description={description}>
-  <article class="prose cv">
+  <article class="prose prose--wide page-shell cv-page">
     <header class="page-header">
       <p class="page-header__eyebrow">Curriculum Vitae</p>
       <h1>{OWNER.fullName}</h1>
       <p class="page-header__lede">
-        Short version, kept current. A printable copy is available as a
-        <a href="/cv.pdf">PDF</a>; the page itself prints cleanly to A4.
+        Working academic CV. The emphasis is on formation, research direction,
+        and early teaching activity rather than inflated claims.
       </p>
     </header>
 
-    {sectionOrder.map((section) => {
-      const arr = grouped.get(section);
-      if (!arr || arr.length === 0) return null;
-      return (
-        <section aria-labelledby={`cv-${section}`}>
-          <h2 id={`cv-${section}`}>{sectionLabels[section]}</h2>
-          <ul class="entry-list" role="list">
-            {arr.map((e) => (
-              <li>
-                <span class="entry-list__date">
-                  {formatRange(e.data.start, e.data.end)}
-                </span>
-                <div class="entry-list__body">
-                  <span class="entry-list__title">
-                    {e.data.url ? (
-                      <a href={e.data.url} rel="noopener noreferrer">{e.data.title}</a>
-                    ) : (
-                      e.data.title
-                    )}
-                  </span>
-                  {(e.data.organization || e.data.location) && (
-                    <span class="entry-list__meta">
-                      {e.data.organization}
-                      {e.data.organization && e.data.location && ' · '}
-                      {e.data.location}
-                    </span>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
+    <div class="cv-layout">
+      <aside class="cv-sidebar">
+        <section class="panel panel--muted">
+          <p class="panel__kicker">Document</p>
+          <a class="cv-download" href="/cv.pdf">Download PDF</a>
+          <nav class="cv-nav" aria-label="CV sections">
+            <ul class="cv-nav__list" role="list">
+              {visibleSections.map((section) => (
+                <li>
+                  <a href={`#cv-${section}`}>{sectionLabels[section]}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </section>
-      );
-    })}
+      </aside>
+
+      <div class="cv-main">
+        <section class="panel cv-overview">
+          <p class="panel__kicker">Overview</p>
+          <h2>Academic profile</h2>
+          <dl class="detail-grid">
+            <div class="detail-grid__item">
+              <dt class="detail-grid__label">Base</dt>
+              <dd class="detail-grid__value">Hamburg, Germany</dd>
+            </div>
+            <div class="detail-grid__item">
+              <dt class="detail-grid__label">Current affiliation</dt>
+              <dd class="detail-grid__value">{OWNER.currentAffiliation}</dd>
+            </div>
+            <div class="detail-grid__item">
+              <dt class="detail-grid__label">Next programme</dt>
+              <dd class="detail-grid__value">
+                BSc Mathematics, {OWNER.futureAffiliation} ({OWNER.startsBonn})
+              </dd>
+            </div>
+            <div class="detail-grid__item">
+              <dt class="detail-grid__label">Languages</dt>
+              <dd class="detail-grid__value">German, English, mathematical French</dd>
+            </div>
+          </dl>
+          <div class="tag-list" aria-label="Research interests">
+            <span class="tag">algebraic geometry</span>
+            <span class="tag">classical projective geometry</span>
+            <span class="tag">intersection theory</span>
+            <span class="tag">mathematical exposition</span>
+          </div>
+        </section>
+
+        {visibleSections.map((section) => {
+          const items = grouped.get(section);
+          if (!items) return null;
+          return (
+            <section id={`cv-${section}`} class="panel cv-section" aria-labelledby={`cv-heading-${section}`}>
+              <div class="cv-section__header">
+                <p class="panel__kicker">Section</p>
+                <h2 id={`cv-heading-${section}`}>{sectionLabels[section]}</h2>
+              </div>
+
+              <ul class="cv-list" role="list">
+                {items.map((entry) => {
+                  const Content = entry.Content;
+                  return (
+                    <li class="cv-entry">
+                      <div class="cv-entry__range">{formatRange(entry.data.start, entry.data.end)}</div>
+                      <div class="cv-entry__content">
+                        {entry.data.url ? (
+                          <a class="cv-entry__title" href={entry.data.url} rel="noopener noreferrer">
+                            {entry.data.title}
+                          </a>
+                        ) : (
+                          <span class="cv-entry__title">{entry.data.title}</span>
+                        )}
+
+                        {(entry.data.organization || entry.data.location) && (
+                          <p class="cv-entry__meta">
+                            {entry.data.organization}
+                            {entry.data.organization && entry.data.location && ' · '}
+                            {entry.data.location}
+                          </p>
+                        )}
+
+                        {Content && (
+                          <div class="cv-entry__body">
+                            <Content />
+                          </div>
+                        )}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          );
+        })}
+      </div>
+    </div>
   </article>
 </Base>

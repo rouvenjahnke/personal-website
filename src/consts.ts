@@ -12,7 +12,7 @@ export const SITE = {
   url: 'https://rouvenjahnke.com',
   title: 'Rouven Jahnke',
   description:
-    'Personal page of Rouven Jahnke — mathematics student, working in algebraic geometry.',
+    'Academic website of Rouven Jahnke — mathematics student in formation, working toward research in algebraic geometry.',
   language: 'en',
   locale: 'en_US',
 } as const;
@@ -29,7 +29,7 @@ export const SITE = {
  * remaining work is easy to find.
  */
 const ORCID_ID = '';                           // e.g. '0000-0002-1825-0097'
-const GITHUB_USERNAME = '';                    // e.g. 'rouvenjahnke'
+const GITHUB_USERNAME = 'rouvenjahnke';        // e.g. 'rouvenjahnke'
 const EMAIL_ADDRESS = '';                      // e.g. 'me@rouvenjahnke.com'
 
 const reverseEmail = (s: string): string =>
@@ -58,19 +58,19 @@ export const OWNER = {
 
 /** Convenience flags for templates. */
 export const HAS = {
-  email: OWNER.email !== '',
-  orcid: OWNER.orcid !== '',
-  github: OWNER.github !== '',
-  mathstodon: OWNER.mathstodon !== '',
-  address: OWNER.institutionalAddress !== '',
+  email: Boolean(OWNER.email),
+  orcid: Boolean(OWNER.orcid),
+  github: Boolean(OWNER.github),
+  mathstodon: Boolean(OWNER.mathstodon),
+  address: Boolean(OWNER.institutionalAddress),
 } as const;
 
 // al-folio convention: lowercase nav labels, "about" instead of "home".
 export const NAV: ReadonlyArray<{ href: string; label: string }> = [
   { href: '/', label: 'about' },
-  { href: '/notes', label: 'blog' },
-  { href: '/writing', label: 'publications' },
   { href: '/research', label: 'research' },
+  { href: '/writing', label: 'writing' },
+  { href: '/notes', label: 'notes' },
   { href: '/teaching', label: 'teaching' },
   { href: '/cv', label: 'cv' },
 ];

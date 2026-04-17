@@ -6,5 +6,5 @@ status: 'expository note'
 links:
   pdf: 'https://example.org/[PLACEHOLDER]/notes.pdf'
 order: 10
-draft: false
+draft: true
 ---

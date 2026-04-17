@@ -12,7 +12,7 @@ links:
   arxiv: '0000.00000'
   pdf: 'https://example.org/[PLACEHOLDER]/lines.pdf'
 order: 100
-draft: false
+draft: true
 ---
 
 This file demonstrates the **papers** schema. The body is currently unused on

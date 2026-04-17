@@ -1,150 +1,137 @@
-/*
-  Design tokens — draft/al-folio-style.
-
-  Mirrors the al-folio Jekyll theme's visual format:
-    https://github.com/alshedivat/al-folio
-    https://rouvenjahnke.github.io/
-
-  Font stack:
-    Body  → Roboto (300/400/500/700)
-    Heading → Roboto Slab (300/400/500/700)
-    Both self-hosted via @fontsource — no Google Fonts CDN (DSGVO).
-
-  Theme is light by default. A user can toggle dark via the navbar
-  button; the choice persists in localStorage. The browser's
-  `prefers-color-scheme` is the initial fallback when no preference is
-  stored. See ~/layouts/Base.astro for the no-flash setup script and
-  ~/components/SiteHeader.astro for the toggle.
-*/
-
 :root,
 :root[data-theme='light'] {
-  /* ── Brand & accent ─────────────────────────────────────────────────── */
-  --color-bg:           #ffffff;
-  --color-bg-soft:      #f8f9fa;
-  --color-text:         #212529;
-  --color-text-muted:   #6c757d;
-  --color-text-faint:   #868e96;
-  --color-rule:         #dee2e6;
-  --color-rule-strong:  #ced4da;
+  --color-bg: #f5efe5;
+  --color-bg-soft: #ebe3d4;
+  --color-bg-panel: rgba(255, 251, 244, 0.84);
+  --color-bg-panel-strong: #fcf8f1;
+  --color-text: #1f2430;
+  --color-text-muted: #59606b;
+  --color-text-faint: #878d96;
+  --color-rule: #d7cfbf;
+  --color-rule-strong: #c3baa7;
 
-  /* al-folio's default accent is `--global-theme-color: #b509ac` (warm
-     purple). We swap it for a calm academic blue so links read as
-     conventional hyperlinks, not as decoration. The variable name keeps
-     al-folio terminology so this is easy to retune. */
-  --color-accent:        #3079ed;
-  --color-accent-hover:  #1a5fc7;
+  --color-accent: #294b63;
+  --color-accent-hover: #193245;
+  --color-accent-soft: rgba(41, 75, 99, 0.08);
 
-  --color-shadow:        rgba(0, 0, 0, 0.08);
-  --color-navbar-bg:     rgba(255, 255, 255, 0.92);
-  --color-navbar-border: rgba(0, 0, 0, 0.06);
+  --color-badge-bg: #2b465c;
+  --color-badge-fg: #f7f1e6;
 
-  --color-selection-bg: rgba(48, 121, 237, 0.18);
-  --color-selection-fg: #212529;
+  --color-shadow: rgba(31, 36, 48, 0.12);
+  --color-navbar-bg: rgba(245, 239, 229, 0.9);
+  --color-navbar-border: rgba(41, 75, 99, 0.12);
 
-  /* ── Type families ──────────────────────────────────────────────────── */
+  --color-selection-bg: rgba(41, 75, 99, 0.18);
+  --color-selection-fg: #1f2430;
+
   --font-sans:
     'Roboto', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Helvetica, Arial, sans-serif;
-  --font-slab:
+  --font-display:
     'Roboto Slab', 'Roboto', Georgia, 'Times New Roman', serif;
+  --font-serif: var(--font-display);
   --font-mono:
     'SFMono-Regular', 'SF Mono', Menlo, Consolas, 'Liberation Mono',
     'DejaVu Sans Mono', monospace;
 
-  /* ── Type scale ─────────────────────────────────────────────────────── */
-  --fs-xs:   0.8125rem;   /* 13px — fine print, footer */
-  --fs-sm:   0.9375rem;   /* 15px — table cells, captions */
-  --fs-base: 1rem;        /* 16px — body */
-  --fs-md:   1.125rem;    /* 18px — lede / .desc */
-  --fs-lg:   1.5rem;      /* 24px — h3 */
-  --fs-xl:   2rem;        /* 32px — h2 */
-  --fs-2xl:  2.75rem;     /* 44px — h1 / .post-title */
+  --fs-xs: 0.78rem;
+  --fs-sm: 0.92rem;
+  --fs-base: 1rem;
+  --fs-md: 1.14rem;
+  --fs-lg: 1.42rem;
+  --fs-xl: 2rem;
+  --fs-2xl: 3.4rem;
 
-  --lh-tight:  1.2;
-  --lh-snug:   1.35;
-  --lh-normal: 1.6;
-  --lh-loose:  1.75;
+  --lh-tight: 1.16;
+  --lh-snug: 1.38;
+  --lh-normal: 1.68;
+  --lh-loose: 1.82;
 
-  --tracking-tight:  -0.01em;
+  --tracking-tight: -0.02em;
   --tracking-normal: 0;
-  --tracking-wide:   0.02em;
+  --tracking-wide: 0.08em;
 
-  --fw-light:    300;
-  --fw-regular:  400;
-  --fw-medium:   500;
-  --fw-bold:     700;
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
 
-  /* ── Spacing scale ──────────────────────────────────────────────────── */
   --space-3xs: 0.125rem;
   --space-2xs: 0.25rem;
-  --space-xs:  0.5rem;
-  --space-sm:  0.75rem;
-  --space-md:  1rem;
-  --space-lg:  1.5rem;
-  --space-xl:  2.25rem;
-  --space-2xl: 3.5rem;
-  --space-3xl: 5rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4.5rem;
 
-  /* ── Layout ─────────────────────────────────────────────────────────── */
-  /* Mirror Bootstrap 4 container: 1140px max on xl, 15px gutter. */
-  --container-max:  1140px;
-  --gutter:         15px;
+  --container-max: 1180px;
+  --gutter: clamp(1rem, 2vw, 1.5rem);
 
-  --navbar-height:  56px;
-  --footer-height:  40px;
-  --content-pad-y:  3rem;     /* breathing room above first heading */
+  --navbar-height: 72px;
+  --content-pad-y: clamp(2.5rem, 6vw, 4rem);
+  --panel-pad: clamp(1.1rem, 2vw, 1.5rem);
 
-  --measure:        70ch;
-  --measure-narrow: 56ch;
+  --measure: 72ch;
+  --measure-narrow: 58ch;
 
-  /* ── Misc ───────────────────────────────────────────────────────────── */
-  --border-rule:   1px solid var(--color-rule);
-  --radius-sm:     0.25rem;       /* Bootstrap default */
-  --radius-md:     0.5rem;
-  --radius-pill:   50rem;
-  --shadow-z1:     0 1px 3px var(--color-shadow);
-  --shadow-z2:     0 4px 12px var(--color-shadow);
-  --transition-fast: 120ms ease-out;
+  --border-rule: 1px solid var(--color-rule);
+  --radius-sm: 0.35rem;
+  --radius-md: 0.8rem;
+  --radius-lg: 1rem;
+  --radius-pill: 999px;
+  --shadow-z1: 0 8px 24px var(--color-shadow);
+  --shadow-z2: 0 18px 42px rgba(31, 36, 48, 0.16);
+  --transition-fast: 140ms ease-out;
 }
 
-/* ── Dark mode (explicit and via system pref) ─────────────────────────── */
 :root[data-theme='dark'] {
-  --color-bg:           #1c1c1d;
-  --color-bg-soft:      #242425;
-  --color-text:         #e9ecef;
-  --color-text-muted:   #adb5bd;
-  --color-text-faint:   #868e96;
-  --color-rule:         #343a40;
-  --color-rule-strong:  #495057;
+  --color-bg: #17191d;
+  --color-bg-soft: #1f232a;
+  --color-bg-panel: rgba(33, 37, 45, 0.82);
+  --color-bg-panel-strong: #1d2128;
+  --color-text: #ece8df;
+  --color-text-muted: #b8b2a8;
+  --color-text-faint: #8f928f;
+  --color-rule: #323843;
+  --color-rule-strong: #475060;
 
-  --color-accent:       #6aa3ff;       /* lifted for AA on dark bg */
-  --color-accent-hover: #93bcff;
+  --color-accent: #9dc0db;
+  --color-accent-hover: #c2d8eb;
+  --color-accent-soft: rgba(157, 192, 219, 0.14);
 
-  --color-shadow:       rgba(0, 0, 0, 0.4);
-  --color-navbar-bg:    rgba(28, 28, 29, 0.92);
-  --color-navbar-border: rgba(255, 255, 255, 0.06);
+  --color-badge-bg: #38536b;
+  --color-badge-fg: #edf1f5;
 
-  --color-selection-bg: rgba(106, 163, 255, 0.30);
-  --color-selection-fg: #e9ecef;
+  --color-shadow: rgba(0, 0, 0, 0.28);
+  --color-navbar-bg: rgba(23, 25, 29, 0.9);
+  --color-navbar-border: rgba(157, 192, 219, 0.12);
+
+  --color-selection-bg: rgba(157, 192, 219, 0.28);
+  --color-selection-fg: #f5f0e7;
 }
 
-/* When the user has no stored preference, fall back to system. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --color-bg:           #1c1c1d;
-    --color-bg-soft:      #242425;
-    --color-text:         #e9ecef;
-    --color-text-muted:   #adb5bd;
-    --color-text-faint:   #868e96;
-    --color-rule:         #343a40;
-    --color-rule-strong:  #495057;
-    --color-accent:       #6aa3ff;
-    --color-accent-hover: #93bcff;
-    --color-shadow:       rgba(0, 0, 0, 0.4);
-    --color-navbar-bg:    rgba(28, 28, 29, 0.92);
-    --color-navbar-border: rgba(255, 255, 255, 0.06);
-    --color-selection-bg: rgba(106, 163, 255, 0.30);
-    --color-selection-fg: #e9ecef;
+    --color-bg: #17191d;
+    --color-bg-soft: #1f232a;
+    --color-bg-panel: rgba(33, 37, 45, 0.82);
+    --color-bg-panel-strong: #1d2128;
+    --color-text: #ece8df;
+    --color-text-muted: #b8b2a8;
+    --color-text-faint: #8f928f;
+    --color-rule: #323843;
+    --color-rule-strong: #475060;
+    --color-accent: #9dc0db;
+    --color-accent-hover: #c2d8eb;
+    --color-accent-soft: rgba(157, 192, 219, 0.14);
+    --color-badge-bg: #38536b;
+    --color-badge-fg: #edf1f5;
+    --color-shadow: rgba(0, 0, 0, 0.28);
+    --color-navbar-bg: rgba(23, 25, 29, 0.9);
+    --color-navbar-border: rgba(157, 192, 219, 0.12);
+    --color-selection-bg: rgba(157, 192, 219, 0.28);
+    --color-selection-fg: #f5f0e7;
   }
 }

@@ -4,53 +4,108 @@ import PaperEntry from '~/components/PaperEntry.astro';
 import { getCollection } from 'astro:content';
 
 const description =
-  'Papers, preprints, and expository notes by Rouven Jahnke.';
+  'Writing by Rouven Jahnke — expository notes, working drafts, and future preprints.';
 
-const all = (await getCollection('papers', ({ data }) => !data.draft)).sort((a, b) => {
+const notes = (await getCollection('notes', ({ data }) => !data.draft)).sort(
+  (a, b) => +b.data.date - +a.data.date,
+);
+
+const papers = (await getCollection('papers', ({ data }) => !data.draft)).sort((a, b) => {
   if (b.data.year !== a.data.year) return b.data.year - a.data.year;
   return b.data.order - a.data.order;
 });
 
-// Group by year, descending.
-const byYear = new Map<number, typeof all>();
-for (const p of all) {
-  const k = p.data.year;
-  const arr = byYear.get(k) ?? [];
-  arr.push(p);
-  byYear.set(k, arr);
-}
-const years = Array.from(byYear.keys()).sort((a, b) => b - a);
+const fmt = new Intl.DateTimeFormat('en-GB', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
 ---
 
 <Base title="Writing" description={description}>
-  <article class="prose">
+  <article class="prose prose--wide page-shell">
     <header class="page-header">
       <p class="page-header__eyebrow">Writing</p>
-      <h1>Papers and notes</h1>
+      <h1>Notes, drafts, and future papers</h1>
       <p class="page-header__lede">
-        Listings of preprints, papers (none yet), and expository notes.
-        For informal writing, see <a href="/notes">notes</a>.
+        Formal publications will come later. For now, the public writing record
+        consists primarily of expository notes and technical working documents.
       </p>
     </header>
 
-    {all.length === 0 ? (
-      <p>Nothing to list yet.</p>
-    ) : (
-      years.map((y) => (
-        <section aria-labelledby={`y-${y}`}>
-          <h2 id={`y-${y}`} class="year-heading">{y}</h2>
-          <ul class="entry-list" role="list">
-            {byYear.get(y)!.map((paper) => (
-              <li>
-                <span class="entry-list__date" aria-hidden="true">{y}</span>
-                <div class="entry-list__body">
-                  <PaperEntry paper={paper} />
-                </div>
-              </li>
-            ))}
-          </ul>
+    <div class="page-grid">
+      <div class="page-grid__main">
+        <section class="panel">
+          <p class="panel__kicker">Public notes</p>
+          <h2>Expository writing</h2>
+          {notes.length === 0 ? (
+            <p class="empty-state">No public notes yet.</p>
+          ) : (
+            <ul class="entry-list" role="list">
+              {notes.map((note) => (
+                <li>
+                  <time class="entry-list__date" datetime={note.data.date.toISOString()}>
+                    {fmt.format(note.data.date)}
+                  </time>
+                  <div class="entry-list__body">
+                    <a class="entry-list__title" href={`/notes/${note.id}`}>
+                      {note.data.title}
+                    </a>
+                    {note.data.summary && (
+                      <span class="entry-list__meta">{note.data.summary}</span>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
-      ))
-    )}
+
+        <section class="panel">
+          <p class="panel__kicker">Publication record</p>
+          <h2>Formal preprints and papers</h2>
+          {papers.length === 0 ? (
+            <p class="empty-state">
+              No formal preprints or publications are listed yet. This is
+              intentional: the page does not fabricate research output before it exists.
+            </p>
+          ) : (
+            <ul class="entry-list" role="list">
+              {papers.map((paper) => (
+                <li>
+                  <span class="entry-list__date" aria-hidden="true">{paper.data.year}</span>
+                  <div class="entry-list__body">
+                    <PaperEntry paper={paper} />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </div>
+
+      <aside class="aside-stack">
+        <section class="panel panel--muted">
+          <p class="panel__kicker">Editorial stance</p>
+          <h2>How the writing is used</h2>
+          <p>
+            Notes are public because writing helps me think. They are not
+            polished papers in disguise, but they are written with enough care
+            that later work can grow out of them.
+          </p>
+        </section>
+
+        <section class="panel panel--muted">
+          <p class="panel__kicker">Topics</p>
+          <h2>Current subjects</h2>
+          <div class="tag-list">
+            <span class="tag">cubic surfaces</span>
+            <span class="tag">intersection theory</span>
+            <span class="tag">schemes</span>
+            <span class="tag">expository notes</span>
+          </div>
+        </section>
+      </aside>
+    </div>
   </article>
 </Base>
