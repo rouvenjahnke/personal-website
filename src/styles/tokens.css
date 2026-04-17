@@ -1,59 +1,67 @@
 /*
-  Design tokens.
-  All values defined here. Components must reference these — never hard-code.
+  Design tokens — redesign/serif.
+
+  All-serif, classical-academic. Inspired by long-form mathematical
+  homepages (Janisch, Pellauer) and old printed mathematical texts:
+  one type family, weight differentiation, oldstyle figures in body,
+  warm cream stock, no chromatic accent — the link colour is a deep
+  warm brown that reads like ink rather than a brand colour.
 */
 
 :root {
   /* ── Colour ────────────────────────────────────────────────────────────── */
-  /* Warm paper background, slightly cooler than Tufte's #fffff8 to reduce
-     yellow cast on calibrated displays while preserving the off-white feel. */
-  --color-bg:           #fbfaf6;
-  --color-bg-subtle:    #f3f1ea;
-  --color-text:         #1a1a1a;  /* 16.4 : 1 on bg */
-  --color-text-muted:   #5b5b5b;  /*  6.6 : 1 on bg — AA at any size */
-  --color-text-faint:   #6f6f6f;  /*  4.7 : 1 on bg — AA for normal text */
-  --color-rule:         #d6d2c4;
-  --color-rule-strong:  #8a8678;
+  /* Warmer than the original off-white; the cream stock of an academic
+     monograph rather than office paper. */
+  --color-bg:           #f6f2e8;
+  --color-bg-subtle:    #ece6d6;
+  --color-text:         #111111;  /* 16.4 : 1 */
+  --color-text-muted:   #595447;  /*  6.5 : 1 — warm grey-brown */
+  --color-text-faint:   #6f6a5e;  /*  4.7 : 1 — AA at any size */
+  --color-rule:         #d8d2c0;
+  --color-rule-strong:  #8b8473;
 
-  /* Muted ink-blue. Reserved for links and very sparing emphasis. */
-  --color-accent:       #2c3e5a;
-  --color-accent-hover: #1a2740;
-  --color-accent-faint: rgba(44, 62, 90, 0.10);
+  /* Link colour: deep warm brown rather than blue. Reads as ink, not brand. */
+  --color-accent:       #4a3826;  /*  9.4 : 1 */
+  --color-accent-hover: #2d2010;
+  --color-accent-faint: rgba(74, 56, 38, 0.10);
 
-  --color-selection-bg: rgba(44, 62, 90, 0.18);
-  --color-selection-fg: #1a1a1a;
+  --color-selection-bg: rgba(74, 56, 38, 0.18);
+  --color-selection-fg: #111111;
 
   /* ── Type families ─────────────────────────────────────────────────────── */
+  /* One family throughout. Weight + italic do all the hierarchy work. */
   --font-serif:
-    'EB Garamond Variable', 'EB Garamond', Garamond,
+    'Source Serif 4 Variable', 'Source Serif 4', 'Source Serif Pro',
     'Hoefler Text', 'Times New Roman', Georgia, serif;
   --font-sans:
-    'Inter Variable', Inter, system-ui, -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Helvetica, Arial, sans-serif;
+    /* Reserved for navigation small-caps labels only. Falls back through
+       the serif so the unstyled state is never out of place. */
+    'Source Serif 4 Variable', 'Source Serif 4',
+    system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono:
     ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
     'Liberation Mono', 'DejaVu Sans Mono', monospace;
 
   /* ── Type scale (modular, ratio ≈ 1.2) ─────────────────────────────────── */
-  --fs-xs:   0.78125rem;  /* 12.5px — micro labels */
-  --fs-sm:   0.875rem;    /* 14px   — metadata, captions */
-  --fs-base: 1.125rem;    /* 18px   — body */
-  --fs-md:   1.25rem;     /* 20px   — h4 */
-  --fs-lg:   1.5rem;      /* 24px   — h3 */
-  --fs-xl:   1.875rem;    /* 30px   — h2 */
-  --fs-2xl:  2.375rem;    /* 38px   — h1 */
+  --fs-xs:   0.78125rem;
+  --fs-sm:   0.875rem;
+  --fs-base: 1.0625rem;   /* 17 px — Source Serif 4 has a generous x-height */
+  --fs-md:   1.1875rem;
+  --fs-lg:   1.4375rem;
+  --fs-xl:   1.75rem;
+  --fs-2xl:  2.25rem;
 
   /* ── Line heights ──────────────────────────────────────────────────────── */
-  --lh-tight:  1.15;
-  --lh-snug:   1.3;
-  --lh-normal: 1.55;
-  --lh-loose:  1.7;
+  --lh-tight:  1.18;
+  --lh-snug:   1.35;
+  --lh-normal: 1.6;       /* slightly looser — air between serif lines */
+  --lh-loose:  1.75;
 
   /* ── Letter spacing ────────────────────────────────────────────────────── */
-  --tracking-tight:  -0.01em;
+  --tracking-tight:  -0.005em;
   --tracking-normal: 0;
-  --tracking-wide:   0.02em;
-  --tracking-caps:   0.08em;   /* for tracked small-caps / acronyms */
+  --tracking-wide:   0.015em;
+  --tracking-caps:   0.12em;   /* small-caps nav labels */
 
   /* ── Font weights ──────────────────────────────────────────────────────── */
   --fw-regular:  400;
@@ -61,33 +69,30 @@
   --fw-semibold: 600;
   --fw-bold:     700;
 
-  /* ── Spacing scale (rem) ───────────────────────────────────────────────── */
+  /* ── Spacing scale ─────────────────────────────────────────────────────── */
   --space-3xs: 0.125rem;
   --space-2xs: 0.25rem;
   --space-xs:  0.5rem;
   --space-sm:  0.75rem;
   --space-md:  1rem;
   --space-lg:  1.5rem;
-  --space-xl:  2rem;
-  --space-2xl: 3rem;
-  --space-3xl: 5rem;
+  --space-xl:  2.25rem;
+  --space-2xl: 3.5rem;
+  --space-3xl: 5.5rem;
   --space-4xl: 8rem;
 
   /* ── Layout / measure ──────────────────────────────────────────────────── */
-  /* Body measure 65–75ch per spec; 68ch is the centre. */
-  --measure:        68ch;
-  --measure-narrow: 56ch;
-  --measure-wide:   82ch;
+  /* Tighter measure than the original — Source Serif 4 reads well at 62ch. */
+  --measure:        62ch;
+  --measure-narrow: 50ch;
+  --measure-wide:   76ch;
 
-  /* Page container. Slightly wider than the measure to give nav and metadata
-     breathing room without breaking the visual relationship to the text. */
-  --site-width: 78ch;
-  --gutter:     clamp(1.25rem, 5vw, 2.5rem);
+  --site-width: 70ch;
+  --gutter:     clamp(1.5rem, 5vw, 3rem);
 
   /* ── Misc ──────────────────────────────────────────────────────────────── */
   --border-rule: 1px solid var(--color-rule);
-  --radius-sm:   2px;       /* code blocks only — no rounded UI */
+  --radius-sm:   2px;
 
-  /* Transitions — only for accessible focus / colour shifts on links. */
   --transition-fast: 80ms ease-out;
 }
