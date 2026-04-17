@@ -4,72 +4,82 @@ import { PROJECT_CASE_STUDIES } from '~/data/profile';
 
 const description =
   'Curated projects by Rouven Jahnke — mathematical tooling, knowledge systems, and academic infrastructure.';
-
-const categories = Array.from(
-  new Set(PROJECT_CASE_STUDIES.map((project) => project.category)),
-);
 ---
 
 <Base title="Projects" description={description}>
   <article class="prose prose--wide page-shell">
     <header class="page-header">
       <p class="page-header__eyebrow">Projects</p>
-      <h1>Selected systems and long-form builds</h1>
+      <h1>Selected systems and longer builds</h1>
       <p class="page-header__lede">
-        A curated layer above raw repositories. These entries are the projects
-        that best reflect how I work: mathematically, structurally, and with a
-        preference for durable infrastructure over short-lived demos.
+        This page plays the role of a projects overview in the sense of the
+        GitHub-page reference, but translated into a more academic frame:
+        fewer showcase cards, more context about why a system matters.
       </p>
     </header>
 
-    <section class="stat-strip" aria-label="Project summary">
-      <div class="stat-strip__item">
-        <span class="stat-strip__value">{PROJECT_CASE_STUDIES.length}</span>
-        <span class="stat-strip__label">curated projects</span>
-      </div>
-      <div class="stat-strip__item">
-        <span class="stat-strip__value">{categories.length}</span>
-        <span class="stat-strip__label">working areas</span>
-      </div>
-      <div class="stat-strip__item">
-        <span class="stat-strip__value">1</span>
-        <span class="stat-strip__label">public research profile</span>
-      </div>
-    </section>
-
-    <section class="project-grid" aria-label="Project list">
-      {PROJECT_CASE_STUDIES.map((project) => (
-        <article class="project-card">
-          <div class="project-card__header">
-            <p class="panel__kicker">{project.category}</p>
-            <h2>{project.title}</h2>
-          </div>
-
-          <div class="project-card__meta">
-            <span class="tag">{project.period}</span>
-            <span class="tag">{project.status}</span>
-          </div>
-
-          <p class="project-card__summary">{project.summary}</p>
-
-          <ul class="compact-list">
-            {project.details.map((detail) => (
-              <li>{detail}</li>
+    <div class="page-grid">
+      <div class="page-grid__main">
+        <section class="panel">
+          <p class="panel__kicker">Selected projects</p>
+          <h2>Curated work</h2>
+          <ul class="record-list" role="list">
+            {PROJECT_CASE_STUDIES.map((project) => (
+              <li class="record">
+                <div class="record__badge">{project.period}</div>
+                <div class="record__body">
+                  <span class="record__title">{project.title}</span>
+                  <p class="record__meta">
+                    {project.category} · {project.status}
+                  </p>
+                  <p class="record__summary">{project.summary}</p>
+                  <ul class="compact-list">
+                    {project.details.map((detail) => (
+                      <li>{detail}</li>
+                    ))}
+                  </ul>
+                  <p class="record__summary">
+                    <a href={project.primaryLink.href} rel="noopener noreferrer">
+                      {project.primaryLink.label}
+                    </a>
+                    {project.secondaryLink && (
+                      <>
+                        {' '}·{' '}
+                        <a href={project.secondaryLink.href} rel="noopener noreferrer">
+                          {project.secondaryLink.label}
+                        </a>
+                      </>
+                    )}
+                  </p>
+                </div>
+              </li>
             ))}
           </ul>
+        </section>
+      </div>
 
-          <div class="project-card__links">
-            <a href={project.primaryLink.href} rel="noopener noreferrer">
-              {project.primaryLink.label}
-            </a>
-            {project.secondaryLink && (
-              <a href={project.secondaryLink.href} rel="noopener noreferrer">
-                {project.secondaryLink.label}
-              </a>
-            )}
+      <aside class="aside-stack">
+        <section class="panel panel--muted">
+          <p class="panel__kicker">How to read</p>
+          <h2>Projects vs repositories</h2>
+          <p>
+            A project is a higher-level unit: a line of work, a system, or a
+            coherent tool. The corresponding implementation details live more
+            literally on the <a href="/repositories">repositories</a> page.
+          </p>
+        </section>
+
+        <section class="panel panel--muted">
+          <p class="panel__kicker">Current themes</p>
+          <h2>Working areas</h2>
+          <div class="tag-list">
+            <span class="tag">mathematical tooling</span>
+            <span class="tag">knowledge systems</span>
+            <span class="tag">academic infrastructure</span>
+            <span class="tag">file-based workflows</span>
           </div>
-        </article>
-      ))}
-    </section>
+        </section>
+      </aside>
+    </div>
   </article>
 </Base>

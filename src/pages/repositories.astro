@@ -13,54 +13,55 @@ const description =
       <p class="page-header__eyebrow">Repositories</p>
       <h1>Public code archive</h1>
       <p class="page-header__lede">
-        The repository layer is intentionally more literal than the projects page:
-        codebases, not narratives. It is the closer equivalent to the repository
-        view on the GitHub-based reference site.
+        This page is the more literal code-facing counterpart to the projects
+        page: repositories first, narrative second.
       </p>
     </header>
 
-    <section class="repo-hero panel">
-      <div>
-        <p class="panel__kicker">GitHub profile</p>
-        <h2>@{OWNER.github}</h2>
-        <p>
-          Public repositories span academic infrastructure, mathematical tooling,
-          and file-based knowledge systems.
-        </p>
+    <div class="page-grid">
+      <div class="page-grid__main">
+        <section class="panel">
+          <p class="panel__kicker">Repositories</p>
+          <h2>Selected public codebases</h2>
+          <ul class="record-list" role="list">
+            {REPOSITORY_CARDS.map((repository) => (
+              <li class="record">
+                <div class="record__badge">{repository.updated}</div>
+                <div class="record__body">
+                  <a class="record__title" href={repository.href} rel="noopener noreferrer">
+                    {repository.name}
+                  </a>
+                  <p class="record__meta">
+                    {repository.area} · {repository.stack}
+                  </p>
+                  <p class="record__summary">{repository.description}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
       </div>
-      <div class="repo-hero__actions">
-        <a class="repo-hero__button" href={OWNER.githubUrl} rel="noopener noreferrer">
-          Open GitHub profile
-        </a>
-      </div>
-    </section>
 
-    <section class="repo-grid" aria-label="Repository cards">
-      {REPOSITORY_CARDS.map((repository) => (
-        <article class="repo-card">
-          <div class="repo-card__header">
-            <p class="panel__kicker">{repository.area}</p>
-            <h2>
-              <a href={repository.href} rel="noopener noreferrer">
-                {repository.name}
-              </a>
-            </h2>
-          </div>
+      <aside class="aside-stack">
+        <section class="panel panel--muted">
+          <p class="panel__kicker">GitHub</p>
+          <h2>@{OWNER.github}</h2>
+          <p>
+            The complete public profile remains available on
+            <a href={OWNER.githubUrl} rel="noopener noreferrer"> GitHub</a>.
+          </p>
+        </section>
 
-          <p class="repo-card__description">{repository.description}</p>
-
-          <dl class="repo-card__meta">
-            <div>
-              <dt>updated</dt>
-              <dd>{repository.updated}</dd>
-            </div>
-            <div>
-              <dt>stack</dt>
-              <dd>{repository.stack}</dd>
-            </div>
-          </dl>
-        </article>
-      ))}
-    </section>
+        <section class="panel panel--muted">
+          <p class="panel__kicker">Profile</p>
+          <h2>Archive logic</h2>
+          <p>
+            Repositories are listed here because the reference GitHub-page has
+            a dedicated repository view. On this site they are filtered toward
+            codebases that fit the academic and technical profile.
+          </p>
+        </section>
+      </aside>
+    </div>
   </article>
 </Base>

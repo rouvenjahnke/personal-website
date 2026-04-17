@@ -13,6 +13,7 @@ Completed:
 - Added `projects` and `repositories` pages so the site now mirrors the GitHub-page reference more closely at the level of information architecture, not only visuals.
 - Tightened the visual language from soft dossier styling toward a more rigid academic brutalism: stronger borders, flatter panels, harsher geometry, and a grid-based background.
 - Curated repository data from the public GitHub profile into a dedicated repositories view and separated it from the higher-level projects narrative.
+- After review, the visual direction was intentionally pulled back to the earlier dossier design while keeping the new information architecture (`projects`, `repositories`, updated navigation labels).
 
 Verification:
 - `pnpm build` passed successfully on 2026-04-17.
