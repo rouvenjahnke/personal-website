@@ -1,0 +1,59 @@
+---
+/**
+ * Renders an email address with light client-side deobfuscation.
+ *
+ *  - HTML source contains only the reversed string, never the address.
+ *  - On load, a small inline script reverses the string and constructs the
+ *    `mailto:` link.
+ *  - With JavaScript disabled, the noscript fallback shows the address with
+ *    `unicode-bidi: bidi-override`, which renders forwards visually while the
+ *    underlying text node is still reversed.
+ *
+ * This will not defeat a serious scraper — but it stops naive ones, which is
+ * the realistic threshold for personal academic pages.
+ */
+interface Props {
+  address: string;
+  /** Optional display label; defaults to the address itself. */
+  label?: string;
+}
+
+const { address, label } = Astro.props;
+const reversed = address.split('').reverse().join('');
+---
+
+<span class="email" data-em={reversed} data-label={label ?? ''}>
+  <noscript>
+    <span class="email__rtl" dir="rtl" lang="x-encoded">{reversed}</span>
+    {' '}<small>(reversed; enable JavaScript or read right-to-left)</small>
+  </noscript>
+  <span class="email__slot" aria-hidden="true"></span>
+</span>
+
+<style>
+  .email__rtl {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const nodes = document.querySelectorAll('.email[data-em]');
+    nodes.forEach(function (el) {
+      const reversed = el.getAttribute('data-em');
+      const label = el.getAttribute('data-label') || '';
+      if (!reversed) return;
+      const address = reversed.split('').reverse().join('');
+      const a = document.createElement('a');
+      a.href = 'mailto:' + address;
+      a.rel = 'me';
+      a.textContent = label || address;
+      const slot = el.querySelector('.email__slot');
+      if (slot) slot.replaceWith(a);
+      else el.replaceChildren(a);
+      // Drop the noscript content (it persists in the DOM as text).
+      el.querySelectorAll('noscript').forEach(function (n) { n.remove(); });
+    });
+  })();
+</script>

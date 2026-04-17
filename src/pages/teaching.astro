@@ -1,0 +1,40 @@
+---
+import Base from '~/layouts/Base.astro';
+
+const description =
+  'Tutoring, teaching, and outreach work by Rouven Jahnke.';
+---
+
+<Base title="Teaching" description={description}>
+  <article class="prose">
+    <header class="page-header">
+      <p class="page-header__eyebrow">Teaching</p>
+      <h1>Tutoring and outreach</h1>
+    </header>
+
+    <h2>Tutoring</h2>
+    <dl>
+      <dt>Since 2024</dt>
+      <dd>
+        <strong>Volunteer mathematics tutor,</strong>
+        <a href="https://www.lern-fair.de" rel="noopener noreferrer">Lern-Fair&nbsp;e.&thinsp;V.</a>
+        One-to-one online tutoring for <em>Oberstufe</em> students preparing
+        for the <em>Abitur</em>. Mostly algebra, analysis, and analytic
+        geometry.
+      </dd>
+    </dl>
+
+    <h2>Teaching assistantships</h2>
+    <p>
+      [PLACEHOLDER: future TA positions.] None yet — the <abbr>BSc</abbr>
+      programme begins in October 2026.
+    </p>
+
+    <h2>Notes for students</h2>
+    <p>
+      Working notes are published under <a href="/notes">notes</a>. They are
+      written for my own clarification first; if any are useful to a student,
+      so much the better.
+    </p>
+  </article>
+</Base>

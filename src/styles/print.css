@@ -1,0 +1,88 @@
+/*
+  Print stylesheet.
+  Loaded globally; the CV page is the primary intended print target,
+  but any page should print cleanly.
+*/
+
+@page {
+  size: A4;
+  margin: 18mm 20mm;
+}
+
+@media print {
+  html {
+    font-size: 10.5pt;
+    background: #ffffff;
+    color: #000000;
+  }
+
+  body {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .site-header,
+  .site-footer,
+  .skip-link,
+  .no-print {
+    display: none !important;
+  }
+
+  .site__main {
+    max-width: none;
+    padding: 0;
+  }
+
+  .prose,
+  .prose--wide {
+    max-width: none;
+  }
+
+  a {
+    color: #000000;
+    text-decoration: underline;
+  }
+
+  /* Expand external link URLs after the link text on print. */
+  a[href^='http']::after {
+    content: ' \2039' attr(href) '\203A';
+    font-size: 0.85em;
+    color: #555555;
+    word-break: break-all;
+  }
+
+  /* Internal navigation links — don't print URLs. */
+  a[href^='/']::after,
+  a[href^='#']::after,
+  a[href^='mailto:']::after {
+    content: '';
+  }
+
+  h1, h2, h3, h4 {
+    page-break-after: avoid;
+  }
+
+  p, li, blockquote {
+    orphans: 3;
+    widows: 3;
+  }
+
+  pre, blockquote, table, figure {
+    page-break-inside: avoid;
+  }
+
+  hr {
+    border-top-color: #cccccc;
+  }
+
+  /* CV: tighter rhythm, no entry-list dividers. */
+  .cv .entry-list > li {
+    border-bottom: none;
+    padding-block: 0.25rem;
+  }
+
+  .cv h2 {
+    border-bottom: 0.5pt solid #888888;
+    padding-block-end: 0.15rem;
+  }
+}

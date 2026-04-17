@@ -1,0 +1,13 @@
+---
+import { SITE } from '~/consts';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer" role="contentinfo">
+  <div class="site-footer__inner">
+    <p>© {year} {SITE.name}</p>
+    <p>
+      <a href="/notes/rss.xml">RSS</a> · <a href="/sitemap-index.xml">Sitemap</a>
+    </p>
+  </div>
+</footer>

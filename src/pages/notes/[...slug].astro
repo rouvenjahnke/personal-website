@@ -1,0 +1,72 @@
+---
+import Base from '~/layouts/Base.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+
+// KaTeX styles are scoped to note pages — most of the site has no math, so
+// the ~25 KB KaTeX stylesheet should not be paid for elsewhere.
+import 'katex/dist/katex.min.css';
+import '~/styles/katex-overrides.css';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notes', ({ data }) => !data.draft);
+  return notes.map((note) => ({
+    params: { slug: note.id },
+    props: { note },
+  }));
+}
+
+interface Props {
+  note: CollectionEntry<'notes'>;
+}
+
+const { note } = Astro.props;
+const { Content } = await render(note);
+
+const fmt = new Intl.DateTimeFormat('en-GB', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<Base
+  title={note.data.title}
+  description={note.data.summary ?? note.data.title}
+  ogType="article"
+  publishedTime={note.data.date.toISOString()}
+>
+  <article class="prose">
+    <header class="page-header">
+      <p class="page-header__eyebrow">
+        <time datetime={note.data.date.toISOString()}>
+          {fmt.format(note.data.date)}
+        </time>
+        {' · Note'}
+      </p>
+      <h1>{note.data.title}</h1>
+      {note.data.summary && (
+        <p class="page-header__lede">{note.data.summary}</p>
+      )}
+      {note.data.updated && (
+        <p>
+          <small>
+            Last updated{' '}
+            <time datetime={note.data.updated.toISOString()}>
+              {fmt.format(note.data.updated)}
+            </time>.
+          </small>
+        </p>
+      )}
+    </header>
+
+    <Content />
+
+    <hr />
+
+    <p>
+      <small>
+        <a href="/notes">← Back to notes</a>
+      </small>
+    </p>
+  </article>
+</Base>

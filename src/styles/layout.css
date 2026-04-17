@@ -1,0 +1,266 @@
+/*
+  Layout primitives. Single column, generous gutter, capped width.
+*/
+
+.site {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.site__main {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: var(--site-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  padding-block: var(--space-2xl) var(--space-3xl);
+  /* Anti-overflow guard: long unbroken tokens (URLs, identifiers) must
+     not push the layout wider than the viewport. */
+  overflow-wrap: break-word;
+}
+
+/* Body prose container — narrower than nav for optimal measure. */
+.prose {
+  max-width: var(--measure);
+  /* Defensive: prevent inline overflow from oversized inline content. */
+  min-width: 0;
+}
+
+.prose--wide {
+  max-width: var(--measure-wide);
+  min-width: 0;
+}
+
+/* Section break — used between page-level sections. */
+.section {
+  margin-block-start: var(--space-2xl);
+}
+
+.section:first-child {
+  margin-block-start: 0;
+}
+
+/* ── Page header (title + subtitle / metadata) ───────────────────────────── */
+.page-header {
+  margin-block-end: var(--space-2xl);
+}
+
+.page-header__eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+  margin-block-end: var(--space-xs);
+}
+
+.page-header__lede {
+  font-size: var(--fs-md);
+  color: var(--color-text-muted);
+  max-width: var(--measure-narrow);
+  margin-block-start: var(--space-sm);
+}
+
+/* ── Site header / nav ───────────────────────────────────────────────────── */
+.site-header {
+  border-bottom: var(--border-rule);
+}
+
+.site-header__inner {
+  width: 100%;
+  max-width: var(--site-width);
+  margin-inline: auto;
+  padding: var(--space-md) var(--gutter);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.site-title {
+  font-family: var(--font-serif);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-regular);
+  font-style: italic;
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
+}
+
+.site-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-title a:hover,
+.site-title a:focus-visible {
+  text-decoration: underline;
+  text-decoration-color: var(--color-rule);
+  text-underline-offset: 0.18em;
+}
+
+.site-nav {
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+}
+
+.site-nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.site-nav__list li {
+  margin: 0;
+}
+
+.site-nav a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  padding-block: var(--space-3xs);
+  border-bottom: 1px solid transparent;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.site-nav a:hover {
+  color: var(--color-text);
+  border-bottom-color: var(--color-rule);
+}
+
+.site-nav a[aria-current='page'] {
+  color: var(--color-text);
+  border-bottom-color: var(--color-accent);
+}
+
+/* ── Site footer ─────────────────────────────────────────────────────────── */
+.site-footer {
+  border-top: var(--border-rule);
+  margin-block-start: var(--space-3xl);
+  padding-block: var(--space-lg);
+}
+
+.site-footer__inner {
+  width: 100%;
+  max-width: var(--site-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-md);
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
+  color: var(--color-text-faint);
+}
+
+.site-footer a {
+  color: var(--color-text-muted);
+  text-decoration-color: var(--color-rule);
+}
+
+/* ── Chronological entry list (papers, talks, notes index) ───────────────── */
+.entry-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.entry-list > li {
+  margin: 0;
+  padding-block: var(--space-md);
+  border-bottom: var(--border-rule);
+  display: grid;
+  grid-template-columns: 5rem 1fr;
+  column-gap: var(--space-lg);
+  align-items: baseline;
+}
+
+.entry-list > li:last-child {
+  border-bottom: none;
+}
+
+.entry-list__date {
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--color-text-faint);
+  letter-spacing: var(--tracking-wide);
+}
+
+.entry-list__body {
+  /* containing block for title + meta */
+}
+
+.entry-list__title {
+  font-family: var(--font-serif);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-regular);
+  margin: 0;
+  line-height: var(--lh-snug);
+}
+
+.entry-list__meta {
+  display: block;
+  margin-block-start: var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+}
+
+/* Year heading inside an entry list section. */
+.year-heading {
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+  margin-block: var(--space-2xl) var(--space-xs);
+  padding-block-end: var(--space-xs);
+  border-bottom: 1px solid var(--color-rule-strong);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.year-heading:first-of-type {
+  margin-block-start: 0;
+}
+
+/* ── Inline metadata row (single line of light text) ─────────────────────── */
+.meta-row {
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.meta-row > * + *::before {
+  content: '·';
+  margin-inline-end: var(--space-sm);
+  margin-inline-start: calc(var(--space-md) * -1 + var(--space-sm));
+  color: var(--color-text-faint);
+}
+
+/* ── Responsive adjustments ──────────────────────────────────────────────── */
+@media (max-width: 36rem) {
+  .entry-list > li {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-2xs);
+  }
+
+  .entry-list__date {
+    order: -1;
+  }
+
+  .site-header__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-xs);
+  }
+}

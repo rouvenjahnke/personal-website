@@ -1,0 +1,62 @@
+---
+import Base from '~/layouts/Base.astro';
+import ObfuscatedEmail from '~/components/ObfuscatedEmail.astro';
+import { OWNER } from '~/consts';
+
+const description = `How to reach ${OWNER.fullName}.`;
+---
+
+<Base title="Contact" description={description}>
+  <article class="prose">
+    <header class="page-header">
+      <p class="page-header__eyebrow">Contact</p>
+      <h1>Get in touch</h1>
+      <p class="page-header__lede">
+        Email is the best way to reach me. Mathematical correspondence,
+        corrections, and questions are all welcome.
+      </p>
+    </header>
+
+    <dl>
+      <dt>Email</dt>
+      <dd><ObfuscatedEmail address={OWNER.email} /></dd>
+
+      <dt>ORCID</dt>
+      <dd>
+        <a href={OWNER.orcidUrl} rel="noopener noreferrer me">
+          {OWNER.orcid}
+        </a>
+      </dd>
+
+      <dt>GitHub</dt>
+      <dd>
+        <a href={OWNER.githubUrl} rel="noopener noreferrer me">
+          @{OWNER.github}
+        </a>
+      </dd>
+
+      <dt>Address</dt>
+      <dd>
+        <address>
+          {OWNER.institutionalAddress}<br />
+          <small>(from October 2026, {OWNER.futureAffiliation}.)</small>
+        </address>
+      </dd>
+
+      <dt>PGP</dt>
+      <dd>
+        [PLACEHOLDER: PGP fingerprint].
+        Public key on request.
+      </dd>
+    </dl>
+
+    <hr />
+
+    <p>
+      <small>
+        I read everything but reply slowly. For mathematical corrections,
+        please be specific about the page or note.
+      </small>
+    </p>
+  </article>
+</Base>

@@ -1,0 +1,96 @@
+---
+import Base from '~/layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { OWNER } from '~/consts';
+
+const description = `Curriculum Vitae of ${OWNER.fullName}.`;
+
+const sectionOrder = [
+  'education',
+  'experience',
+  'talks',
+  'awards',
+  'service',
+  'languages',
+  'skills',
+] as const;
+
+const sectionLabels: Record<(typeof sectionOrder)[number], string> = {
+  education: 'Education',
+  experience: 'Experience',
+  talks: 'Talks',
+  awards: 'Awards',
+  service: 'Service',
+  languages: 'Languages',
+  skills: 'Skills',
+};
+
+const entries = await getCollection('cv', ({ data }) => !data.draft);
+
+const grouped = new Map<string, typeof entries>();
+for (const e of entries) {
+  const arr = grouped.get(e.data.section) ?? [];
+  arr.push(e);
+  grouped.set(e.data.section, arr);
+}
+for (const arr of grouped.values()) {
+  arr.sort((a, b) => {
+    if (b.data.order !== a.data.order) return b.data.order - a.data.order;
+    return (b.data.start ?? '').localeCompare(a.data.start ?? '');
+  });
+}
+
+const formatRange = (start: string, end?: string): string => {
+  if (!end) return start;
+  if (end === 'present') return `${start}\u2009–\u2009present`;
+  return `${start}\u2009–\u2009${end}`;
+};
+---
+
+<Base title="CV" description={description}>
+  <article class="prose cv">
+    <header class="page-header">
+      <p class="page-header__eyebrow">Curriculum Vitae</p>
+      <h1>{OWNER.fullName}</h1>
+      <p class="page-header__lede">
+        Short version, kept current. A printable copy is available as a
+        <a href="/cv.pdf">PDF</a>; the page itself prints cleanly to A4.
+      </p>
+    </header>
+
+    {sectionOrder.map((section) => {
+      const arr = grouped.get(section);
+      if (!arr || arr.length === 0) return null;
+      return (
+        <section aria-labelledby={`cv-${section}`}>
+          <h2 id={`cv-${section}`}>{sectionLabels[section]}</h2>
+          <ul class="entry-list" role="list">
+            {arr.map((e) => (
+              <li>
+                <span class="entry-list__date">
+                  {formatRange(e.data.start, e.data.end)}
+                </span>
+                <div class="entry-list__body">
+                  <span class="entry-list__title">
+                    {e.data.url ? (
+                      <a href={e.data.url} rel="noopener noreferrer">{e.data.title}</a>
+                    ) : (
+                      e.data.title
+                    )}
+                  </span>
+                  {(e.data.organization || e.data.location) && (
+                    <span class="entry-list__meta">
+                      {e.data.organization}
+                      {e.data.organization && e.data.location && ' · '}
+                      {e.data.location}
+                    </span>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      );
+    })}
+  </article>
+</Base>

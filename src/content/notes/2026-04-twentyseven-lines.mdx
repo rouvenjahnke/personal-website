@@ -1,0 +1,56 @@
+---
+title: 'A first look at the twenty-seven lines on a cubic surface'
+date: 2026-04-15
+summary: 'Working notes on the classical theorem that every smooth cubic surface in three-dimensional projective space contains exactly twenty-seven lines.'
+draft: false
+---
+
+These are working notes — corrections welcome.
+
+## Statement
+
+A *cubic surface* is the zero locus in $\mathbb{P}^3_k$ of a homogeneous
+polynomial of degree three. The classical theorem of Cayley and Salmon
+(1849) asserts:
+
+> Every smooth cubic surface over an algebraically closed field of
+> characteristic zero contains exactly twenty-seven lines.
+
+Equivalently, denote by $X \subset \mathbb{P}^3$ a smooth cubic surface and
+by $F(X) \subset \mathrm{Gr}(2, 4)$ its Fano variety of lines. Then
+$F(X)$ is a reduced zero-dimensional scheme of length
+
+$$
+\deg F(X) = 27.
+$$
+
+## Sketch
+
+One pleasant way to see the number $27$ is via intersection theory on the
+Grassmannian. The space of lines in $\mathbb{P}^3$ has dimension four, and
+the condition that a line lie on a fixed cubic cuts out a degree-four
+subscheme. Computing the relevant Chern class of $\mathrm{Sym}^3
+\mathcal{S}^\vee$ — where $\mathcal{S}$ is the tautological rank-two
+subbundle on $\mathrm{Gr}(2,4)$ — gives, after a small calculation,
+
+$$
+c_4(\mathrm{Sym}^3 \mathcal{S}^\vee) \cap [\mathrm{Gr}(2,4)] = 27.
+$$
+
+I plan to flesh this out in a follow-up note with the actual Chern class
+calculation.
+
+## Why I find this interesting
+
+Two reasons.
+
+1. The argument is *short* once one accepts the formalism of Chern
+   classes; the answer drops out of a finite computation in a polynomial
+   ring. There is something pleasing about a number-theoretic answer — a
+   small integer — emerging as the value of a topological invariant.
+
+2. The configuration of the twenty-seven lines is an object of intrinsic
+   interest. They form a graph (the *Schläfli double-six*) with rich
+   automorphism group, isomorphic to the Weyl group $W(E_6)$.
+
+[PLACEHOLDER: continue with worked example].

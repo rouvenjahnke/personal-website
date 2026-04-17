@@ -1,0 +1,56 @@
+---
+import Base from '~/layouts/Base.astro';
+import PaperEntry from '~/components/PaperEntry.astro';
+import { getCollection } from 'astro:content';
+
+const description =
+  'Papers, preprints, and expository notes by Rouven Jahnke.';
+
+const all = (await getCollection('papers', ({ data }) => !data.draft)).sort((a, b) => {
+  if (b.data.year !== a.data.year) return b.data.year - a.data.year;
+  return b.data.order - a.data.order;
+});
+
+// Group by year, descending.
+const byYear = new Map<number, typeof all>();
+for (const p of all) {
+  const k = p.data.year;
+  const arr = byYear.get(k) ?? [];
+  arr.push(p);
+  byYear.set(k, arr);
+}
+const years = Array.from(byYear.keys()).sort((a, b) => b - a);
+---
+
+<Base title="Writing" description={description}>
+  <article class="prose">
+    <header class="page-header">
+      <p class="page-header__eyebrow">Writing</p>
+      <h1>Papers and notes</h1>
+      <p class="page-header__lede">
+        Listings of preprints, papers (none yet), and expository notes.
+        For informal writing, see <a href="/notes">notes</a>.
+      </p>
+    </header>
+
+    {all.length === 0 ? (
+      <p>Nothing to list yet.</p>
+    ) : (
+      years.map((y) => (
+        <section aria-labelledby={`y-${y}`}>
+          <h2 id={`y-${y}`} class="year-heading">{y}</h2>
+          <ul class="entry-list" role="list">
+            {byYear.get(y)!.map((paper) => (
+              <li>
+                <span class="entry-list__date" aria-hidden="true">{y}</span>
+                <div class="entry-list__body">
+                  <PaperEntry paper={paper} />
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    )}
+  </article>
+</Base>

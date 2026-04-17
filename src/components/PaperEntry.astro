@@ -1,0 +1,82 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { OWNER } from '~/consts';
+
+interface Props {
+  paper: CollectionEntry<'papers'>;
+}
+const { paper } = Astro.props;
+const d = paper.data;
+
+const arxivUrl = d.links.arxiv ? `https://arxiv.org/abs/${d.links.arxiv}` : undefined;
+const doiUrl = d.links.doi ? `https://doi.org/${d.links.doi}` : undefined;
+
+const links: ReadonlyArray<{ href: string; label: string }> = [
+  d.links.pdf  && { href: d.links.pdf,  label: 'PDF' },
+  arxivUrl     && { href: arxivUrl,     label: 'arXiv' },
+  doiUrl       && { href: doiUrl,       label: 'DOI' },
+  d.links.bibtex && { href: d.links.bibtex, label: 'BibTeX' },
+  d.links.url    && { href: d.links.url,    label: 'Link' },
+].filter((x): x is { href: string; label: string } => Boolean(x));
+
+const venue = d.venue ?? d.status;
+---
+
+<article class="paper">
+  <h3 class="paper__title">{d.title}</h3>
+  <p class="paper__authors">
+    {d.authors.map((author, i) => (
+      <>
+        {i > 0 && <span aria-hidden="true">, </span>}
+        {author === OWNER.fullName
+          ? <span class="paper__author--self">{author}</span>
+          : <span>{author}</span>}
+      </>
+    ))}
+  </p>
+  <p class="paper__venue">
+    <em>{venue}</em>{d.venue && d.status && d.venue !== d.status && (
+      <span> · {d.status}</span>
+    )}
+  </p>
+  {links.length > 0 && (
+    <p class="paper__links">
+      {links.map((link, i) => (
+        <>
+          {i > 0 && <span class="paper__sep" aria-hidden="true"> · </span>}
+          <a href={link.href} rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+            {link.label}
+          </a>
+        </>
+      ))}
+    </p>
+  )}
+</article>
+
+<style>
+  .paper {
+    margin: 0;
+  }
+  .paper__title {
+    font-family: var(--font-serif);
+    font-size: var(--fs-base);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-snug);
+    margin: 0;
+  }
+  .paper__authors,
+  .paper__venue,
+  .paper__links {
+    margin: var(--space-2xs) 0 0;
+    font-family: var(--font-sans);
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
+  .paper__author--self {
+    font-weight: var(--fw-medium);
+    color: var(--color-text);
+  }
+  .paper__sep {
+    color: var(--color-text-faint);
+  }
+</style>

@@ -1,0 +1,26 @@
+/*
+  KaTeX visual integration with the body type system.
+  Applied after katex.min.css so cascade wins.
+*/
+
+.katex {
+  font-size: 1.05em; /* Slight bump — KaTeX renders smaller than body x-height. */
+}
+
+/* Display math: centred, with breathing room above and below. */
+.katex-display {
+  margin-block: var(--space-md);
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: var(--space-2xs);
+}
+
+.katex-display > .katex {
+  font-size: 1.1em;
+}
+
+/* Inline math should not blow up line height. */
+p .katex,
+li .katex {
+  line-height: 1;
+}

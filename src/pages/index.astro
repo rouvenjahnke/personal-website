@@ -1,0 +1,90 @@
+---
+import Base from '~/layouts/Base.astro';
+import { OWNER } from '~/consts';
+import { getCollection } from 'astro:content';
+
+const description =
+  'Rouven Jahnke — incoming BSc Mathematics student at Universität Bonn (October 2026), currently Frühstudent at Universität Hamburg, working in algebraic geometry.';
+
+// "Recent" pulls the five newest non-draft notes. When the notes
+// collection is empty the section quietly disappears.
+const recent = (await getCollection('notes', ({ data }) => !data.draft))
+  .sort((a, b) => +b.data.date - +a.data.date)
+  .slice(0, 5);
+
+const fmt = new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'short' });
+---
+
+<Base description={description}>
+  <article class="prose">
+    <header class="page-header">
+      <p class="page-header__eyebrow">Mathematics</p>
+      <h1>{OWNER.fullName}</h1>
+      <p class="page-header__lede">
+        Frühstudent at <abbr title="Universität Hamburg">UHH</abbr>; from October 2026,
+        BSc Mathematics at {OWNER.futureAffiliation}. Interested in algebraic geometry.
+      </p>
+    </header>
+
+    <p>
+      [PLACEHOLDER: bio_paragraph] I am a first-generation mathematics student currently
+      taking <abbr>MSc</abbr>-level courses in algebra, algebraic geometry, and topology
+      as a <em>Frühstudent</em> at the Universität Hamburg. From October 2026 I will
+      begin the <abbr>BSc</abbr> programme in mathematics at the Universität Bonn,
+      with the long-term aim of pursuing doctoral research in algebraic geometry.
+    </p>
+    <p>
+      My interests sit, broadly, around schemes and sheaves, intersection theory,
+      and classical results that connect the two — for instance, the configuration
+      of the twenty-seven lines on a smooth cubic surface. I am at an early stage
+      and most of what appears here is in progress; corrections are welcome.
+    </p>
+
+    <section class="section" aria-labelledby="currently">
+      <h2 id="currently">Currently</h2>
+      <ul>
+        <li>
+          Reading Hartshorne, <em>Algebraic Geometry</em>, Chapters <abbr>II</abbr>–<abbr>III</abbr>;
+          working through exercises in parallel.
+        </li>
+        <li>
+          Attending lectures on commutative algebra and algebraic topology at
+          the Universität Hamburg.
+        </li>
+        <li>
+          Volunteer tutoring through <a href="https://lern-fair.de" rel="noopener noreferrer">Lern-Fair</a>,
+          mostly mathematics at the <em>Oberstufe</em> level.
+        </li>
+      </ul>
+    </section>
+
+    {recent.length > 0 && (
+      <section class="section" aria-labelledby="recent">
+        <h2 id="recent">Recent</h2>
+        <ul class="entry-list" role="list">
+          {recent.map((note) => (
+            <li>
+              <time class="entry-list__date" datetime={note.data.date.toISOString()}>
+                {fmt.format(note.data.date)}
+              </time>
+              <div class="entry-list__body">
+                <a href={`/notes/${note.id}`} class="entry-list__title">
+                  {note.data.title}
+                </a>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section class="section" aria-labelledby="contact">
+      <h2 id="contact">Contact</h2>
+      <p class="meta-row">
+        <a href="/contact">Email</a>
+        <a href={OWNER.orcidUrl} rel="noopener noreferrer">ORCID</a>
+        <a href={OWNER.githubUrl} rel="noopener noreferrer">GitHub</a>
+      </p>
+    </section>
+  </article>
+</Base>

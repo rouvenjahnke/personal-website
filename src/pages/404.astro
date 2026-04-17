@@ -1,0 +1,27 @@
+---
+import Base from '~/layouts/Base.astro';
+---
+
+<Base title="Not found" description="Page not found." noindex>
+  <article class="prose">
+    <header class="page-header">
+      <p class="page-header__eyebrow">404</p>
+      <h1>Page not found</h1>
+      <p class="page-header__lede">
+        The page you requested does not exist on this site. It may have been
+        moved, or never existed at all.
+      </p>
+    </header>
+
+    <p>
+      Try one of:
+    </p>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/research">Research</a></li>
+      <li><a href="/writing">Writing</a></li>
+      <li><a href="/notes">Notes</a></li>
+      <li><a href="/cv">CV</a></li>
+    </ul>
+  </article>
+</Base>

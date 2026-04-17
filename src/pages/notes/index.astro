@@ -1,0 +1,52 @@
+---
+import Base from '~/layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const description =
+  'Informal mathematical notes — working notes, expository sketches, and reading reports by Rouven Jahnke.';
+
+const notes = (await getCollection('notes', ({ data }) => !data.draft)).sort(
+  (a, b) => +b.data.date - +a.data.date,
+);
+
+const fmt = new Intl.DateTimeFormat('en-GB', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+---
+
+<Base title="Notes" description={description}>
+  <article class="prose">
+    <header class="page-header">
+      <p class="page-header__eyebrow">Notes</p>
+      <h1>Informal notes</h1>
+      <p class="page-header__lede">
+        Working notes, mostly written for my own clarification. They are
+        unpolished by intention. <a href="/notes/rss.xml">RSS feed</a>.
+      </p>
+    </header>
+
+    {notes.length === 0 ? (
+      <p>Nothing here yet.</p>
+    ) : (
+      <ul class="entry-list" role="list">
+        {notes.map((note) => (
+          <li>
+            <time class="entry-list__date" datetime={note.data.date.toISOString()}>
+              {fmt.format(note.data.date)}
+            </time>
+            <div class="entry-list__body">
+              <a class="entry-list__title" href={`/notes/${note.id}`}>
+                {note.data.title}
+              </a>
+              {note.data.summary && (
+                <span class="entry-list__meta">{note.data.summary}</span>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    )}
+  </article>
+</Base>
