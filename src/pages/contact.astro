@@ -1,9 +1,14 @@
 ---
 import Base from '~/layouts/Base.astro';
 import ObfuscatedEmail from '~/components/ObfuscatedEmail.astro';
-import { OWNER } from '~/consts';
+import { OWNER, HAS } from '~/consts';
 
 const description = `How to reach ${OWNER.fullName}.`;
+
+// At least one of the rows must be present for the page to be useful;
+// in the empty-everywhere starter state, the dl below collapses to just
+// the email row (always rendered, even when empty, so the page is never
+// dead) and the closing note.
 ---
 
 <Base title="Contact" description={description}>
@@ -19,35 +24,45 @@ const description = `How to reach ${OWNER.fullName}.`;
 
     <dl>
       <dt>Email</dt>
-      <dd><ObfuscatedEmail address={OWNER.email} /></dd>
-
-      <dt>ORCID</dt>
       <dd>
-        <a href={OWNER.orcidUrl} rel="noopener noreferrer me">
-          {OWNER.orcid}
-        </a>
+        {HAS.email
+          ? <ObfuscatedEmail address={OWNER.email} />
+          : <em>Email address not yet published.</em>}
       </dd>
 
-      <dt>GitHub</dt>
-      <dd>
-        <a href={OWNER.githubUrl} rel="noopener noreferrer me">
-          @{OWNER.github}
-        </a>
-      </dd>
+      {HAS.orcid && (
+        <>
+          <dt>ORCID</dt>
+          <dd>
+            <a href={OWNER.orcidUrl} rel="noopener noreferrer me">
+              {OWNER.orcid}
+            </a>
+          </dd>
+        </>
+      )}
 
-      <dt>Address</dt>
-      <dd>
-        <address>
-          {OWNER.institutionalAddress}<br />
-          <small>(from October 2026, {OWNER.futureAffiliation}.)</small>
-        </address>
-      </dd>
+      {HAS.github && (
+        <>
+          <dt>GitHub</dt>
+          <dd>
+            <a href={OWNER.githubUrl} rel="noopener noreferrer me">
+              @{OWNER.github}
+            </a>
+          </dd>
+        </>
+      )}
 
-      <dt>PGP</dt>
-      <dd>
-        [PLACEHOLDER: PGP fingerprint].
-        Public key on request.
-      </dd>
+      {HAS.address && (
+        <>
+          <dt>Address</dt>
+          <dd>
+            <address>
+              {OWNER.institutionalAddress}<br />
+              <small>(from {OWNER.startsBonn}, {OWNER.futureAffiliation}.)</small>
+            </address>
+          </dd>
+        </>
+      )}
     </dl>
 
     <hr />

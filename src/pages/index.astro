@@ -1,6 +1,6 @@
 ---
 import Base from '~/layouts/Base.astro';
-import { OWNER } from '~/consts';
+import { OWNER, HAS } from '~/consts';
 import { getCollection } from 'astro:content';
 
 const description =
@@ -27,11 +27,12 @@ const fmt = new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'short' }
     </header>
 
     <p>
-      [PLACEHOLDER: bio_paragraph] I am a first-generation mathematics student currently
-      taking <abbr>MSc</abbr>-level courses in algebra, algebraic geometry, and topology
-      as a <em>Frühstudent</em> at the Universität Hamburg. From October 2026 I will
-      begin the <abbr>BSc</abbr> programme in mathematics at the Universität Bonn,
-      with the long-term aim of pursuing doctoral research in algebraic geometry.
+      I am a first-generation mathematics student currently taking
+      <abbr>MSc</abbr>-level courses in algebra, algebraic geometry, and
+      topology as a <em>Frühstudent</em> at the Universität Hamburg. From
+      October 2026 I will begin the <abbr>BSc</abbr> programme in
+      mathematics at the Universität Bonn, with the long-term aim of
+      pursuing doctoral research in algebraic geometry.
     </p>
     <p>
       My interests sit, broadly, around schemes and sheaves, intersection theory,
@@ -82,8 +83,12 @@ const fmt = new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'short' }
       <h2 id="contact">Contact</h2>
       <p class="meta-row">
         <a href="/contact">Email</a>
-        <a href={OWNER.orcidUrl} rel="noopener noreferrer">ORCID</a>
-        <a href={OWNER.githubUrl} rel="noopener noreferrer">GitHub</a>
+        {HAS.orcid && (
+          <a href={OWNER.orcidUrl} rel="noopener noreferrer me">ORCID</a>
+        )}
+        {HAS.github && (
+          <a href={OWNER.githubUrl} rel="noopener noreferrer me">GitHub</a>
+        )}
       </p>
     </section>
   </article>

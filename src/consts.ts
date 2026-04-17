@@ -2,8 +2,9 @@
  * Site-wide constants. Single source of truth for metadata, navigation,
  * and externally surfaced identifiers.
  *
- * Placeholders are written exactly as `[PLACEHOLDER: name]` so they remain
- * greppable across the codebase.
+ * Identifiers default to the empty string. Templates *must* check truthiness
+ * before rendering links / email so that empty fields disappear from the
+ * page entirely instead of leaking placeholder strings into URLs.
  */
 
 export const SITE = {
@@ -17,23 +18,51 @@ export const SITE = {
 } as const;
 
 /**
- * Owner identifiers. Hard placeholders for greppability — replace by editing
- * this single file rather than chasing strings through templates.
+ * Owner identifiers. Fill in below as fields become real.
+ *
+ *   - Empty string → field is hidden everywhere on the public site.
+ *   - For URL-bearing fields, the URL is derived from the identifier and is
+ *     only emitted when the identifier is non-empty.
+ *
+ * The string `[TODO]` is used in inline visible places where the user must
+ * write content themselves (e.g. PGP fingerprint). It is greppable so the
+ * remaining work is easy to find.
  */
+const ORCID_ID = '';                           // e.g. '0000-0002-1825-0097'
+const GITHUB_USERNAME = '';                    // e.g. 'rouvenjahnke'
+const EMAIL_ADDRESS = '';                      // e.g. 'me@rouvenjahnke.com'
+
+const reverseEmail = (s: string): string =>
+  s ? s.split('').reverse().join('') : '';
+
 export const OWNER = {
-  fullName: 'Rouven Jahnke', // [PLACEHOLDER: full_name]
-  currentAffiliation: '[PLACEHOLDER: current_affiliation]',
-  futureAffiliation: 'Universität Bonn', // [PLACEHOLDER: future_affiliation] (from Oct 2026)
-  email: '[PLACEHOLDER: email]',
-  // Email obfuscation: for the public site we reverse the address client-side.
-  // The reversed form here is itself a placeholder until a real address is set.
-  emailReversed: ']liame :REDLOHECALP[',
-  orcid: '[PLACEHOLDER: orcid_id]',
-  orcidUrl: 'https://orcid.org/[PLACEHOLDER: orcid_id]',
-  github: '[PLACEHOLDER: github_username]',
-  githubUrl: 'https://github.com/[PLACEHOLDER: github_username]',
-  mathstodon: '', // optional
-  institutionalAddress: '[PLACEHOLDER: institutional_address]', // from Oct 2026
+  fullName: 'Rouven Jahnke',
+  currentAffiliation: 'Universität Hamburg',
+  futureAffiliation: 'Universität Bonn',
+  startsBonn: 'October 2026',
+
+  email: EMAIL_ADDRESS,
+  emailReversed: reverseEmail(EMAIL_ADDRESS),
+
+  orcid: ORCID_ID,
+  orcidUrl: ORCID_ID ? `https://orcid.org/${ORCID_ID}` : '',
+
+  github: GITHUB_USERNAME,
+  githubUrl: GITHUB_USERNAME ? `https://github.com/${GITHUB_USERNAME}` : '',
+
+  mathstodon: '',          // e.g. '@you@mathstodon.xyz'
+  mathstodonUrl: '',       // derived if you set this; left manual on purpose
+
+  institutionalAddress: '', // e.g. 'Mathematisches Institut, Universität Bonn'
+} as const;
+
+/** Convenience flags for templates. */
+export const HAS = {
+  email: OWNER.email !== '',
+  orcid: OWNER.orcid !== '',
+  github: OWNER.github !== '',
+  mathstodon: OWNER.mathstodon !== '',
+  address: OWNER.institutionalAddress !== '',
 } as const;
 
 export const NAV: ReadonlyArray<{ href: string; label: string }> = [
