@@ -2,6 +2,7 @@
 import { SITE } from '~/consts';
 import SiteHeader from '~/components/SiteHeader.astro';
 import SiteFooter from '~/components/SiteFooter.astro';
+import CookieNotice from '~/components/CookieNotice.astro';
 
 import '@fontsource-variable/eb-garamond/index.css';
 import '@fontsource-variable/eb-garamond/wght-italic.css';
@@ -88,6 +89,17 @@ const pathname = Astro.url.pathname.replace(/\.html$/i, '').replace(/\/index$/i,
     <meta name="twitter:description" content={description} />
 
     <slot name="head" />
+
+    <script is:inline>
+      // Hide the informational privacy notice synchronously for returning
+      // visitors who dismissed it previously; must run before <body> to
+      // avoid a flash of the banner on every page load.
+      try {
+        if (localStorage.getItem('site-notice-dismissed') === '1') {
+          document.documentElement.classList.add('notice-dismissed');
+        }
+      } catch (_) { /* storage blocked; fall through to showing the notice */ }
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -98,5 +110,6 @@ const pathname = Astro.url.pathname.replace(/\.html$/i, '').replace(/\/index$/i,
       </main>
       <SiteFooter />
     </div>
+    <CookieNotice />
   </body>
 </html>

@@ -1,0 +1,122 @@
+---
+/*
+ * Informational privacy notice.
+ *
+ * Not a GDPR consent banner — this site sets no cookies, loads no
+ * third-party scripts, and uses no analytics. § 25 TDDDG and Art. 5(3)
+ * ePrivacy are not triggered. The notice exists to inform visitors of
+ * that fact; the dismissal is remembered via a single localStorage
+ * entry, which is itself covered by § 25(2) no. 2 TDDDG as a function
+ * explicitly requested by the user.
+ */
+---
+
+<aside
+  id="site-notice"
+  class="site-notice"
+  role="status"
+  aria-live="polite"
+  aria-label="Privacy information"
+>
+  <p class="site-notice__text">
+    This website sets no cookies, uses no analytics, and loads no
+    third-party trackers. Server log data is processed by Cloudflare
+    only for operation and security. See the
+    <a href="/privacy">privacy notice</a> for details.
+  </p>
+  <button
+    type="button"
+    class="site-notice__close"
+    aria-label="Dismiss this notice"
+    data-notice-close
+  >
+    Got it
+  </button>
+</aside>
+
+<script is:inline>
+  (function () {
+    var btn = document.querySelector('[data-notice-close]');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      document.documentElement.classList.add('notice-dismissed');
+      try { localStorage.setItem('site-notice-dismissed', '1'); } catch (_) {}
+    });
+  })();
+</script>
+
+<style>
+  .site-notice {
+    position: fixed;
+    inset-block-end: var(--space-md);
+    inset-inline: var(--gutter);
+    max-inline-size: var(--measure);
+    margin-inline: auto;
+    padding: var(--space-sm) var(--space-md);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    border: 1px solid var(--color-rule-strong);
+    box-shadow: 0 6px 24px rgba(26, 26, 26, 0.10);
+    font-family: var(--font-sans);
+    font-size: var(--fs-sm);
+    line-height: var(--lh-snug);
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    z-index: 40;
+  }
+
+  .site-notice__text {
+    margin: 0;
+    flex: 1;
+  }
+
+  .site-notice__text a {
+    color: var(--color-accent);
+  }
+
+  .site-notice__close {
+    font-family: var(--font-sans);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    padding: var(--space-2xs) var(--space-sm);
+    background-color: var(--color-text);
+    color: var(--color-bg);
+    border: 1px solid var(--color-text);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity var(--transition-fast);
+  }
+
+  .site-notice__close:hover,
+  .site-notice__close:focus-visible {
+    opacity: 0.85;
+  }
+
+  .site-notice__close:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  :global(html.notice-dismissed) .site-notice {
+    display: none;
+  }
+
+  @media (max-width: 40rem) {
+    .site-notice {
+      flex-direction: column;
+      align-items: stretch;
+      inset-inline: var(--space-sm);
+      gap: var(--space-xs);
+    }
+    .site-notice__close {
+      align-self: flex-end;
+    }
+  }
+
+  @media print {
+    .site-notice {
+      display: none !important;
+    }
+  }
+</style>

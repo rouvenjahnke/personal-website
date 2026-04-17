@@ -26,6 +26,14 @@ const STAND = 'April 2026';
       natural person named in the <a href="/impressum">legal notice</a>.
     </p>
 
+    <p>
+      This notice covers <strong>rouvenjahnke.com</strong>. A separate
+      application is reachable at the subdomain
+      <strong>cloud.rouvenjahnke.com</strong> and is described in
+      section&nbsp;4.2 below; its internal processing lies outside the
+      scope of this notice.
+    </p>
+
     <h2>2. Data collected on access</h2>
     <p>
       When this website is accessed, the hosting provider processes
@@ -41,11 +49,22 @@ const STAND = 'April 2026';
     </ul>
     <p>
       This website uses no analytics, tracking or profiling services.
-      No cookies are set. There are no forms, and no data storage
-      beyond the log files described above. Contact is made exclusively
-      via the email address given in the legal notice; in that case the
-      content of the message is stored for the purpose of handling the
-      enquiry.
+      <strong>No cookies are set.</strong> There are no forms, and no
+      server-side data storage beyond the log files described above.
+      Contact is made exclusively via the email address given in the
+      legal notice; in that case the content of the message is stored
+      for the purpose of handling the enquiry.
+    </p>
+    <p>
+      For the dismissal of the informational notice shown at the
+      bottom of each page, the browser stores a single
+      <code>localStorage</code> entry
+      (<code>site-notice-dismissed</code>). The value is a plain flag,
+      contains no personal data, is never transmitted to any server,
+      and can be removed at any time in the browser&rsquo;s storage
+      settings. The processing is covered by § 25(2) no. 2 TDDDG
+      (strictly necessary for a function explicitly requested by the
+      user when dismissing the notice).
     </p>
 
     <h2>3. Purpose and legal basis</h2>
@@ -58,14 +77,39 @@ const STAND = 'April 2026';
     </p>
 
     <h2>4. Recipients and processors</h2>
+
+    <h3>4.1 Main website (rouvenjahnke.com)</h3>
     <p>
-      The website is hosted by Cloudflare, Inc.
+      The main website is hosted by Cloudflare, Inc.
       (<a href="https://www.cloudflare.com" rel="noopener noreferrer">www.cloudflare.com</a>)
       on the Cloudflare Pages platform. Cloudflare processes the data
       described under section 2 as a processor within the meaning of
       Art. 28 GDPR on the basis of a corresponding data processing
-      agreement. No further transfer to third parties takes place.
+      agreement.
     </p>
+
+    <h3>4.2 Nextcloud subdomain (cloud.rouvenjahnke.com)</h3>
+    <p>
+      The subdomain <code>cloud.rouvenjahnke.com</code> hosts a private
+      Nextcloud instance operated on shared-storage infrastructure
+      provided by Hetzner Online GmbH, Industriestraße 25, 91710
+      Gunzenhausen, Germany
+      (<a href="https://www.hetzner.com" rel="noopener noreferrer">www.hetzner.com</a>).
+      Hetzner processes access and server data for that subdomain as a
+      processor within the meaning of Art. 28 GDPR on the basis of a
+      corresponding data processing agreement.
+    </p>
+    <p>
+      The Nextcloud service is a separate application with its own
+      processing context. Accessing it may set strictly necessary
+      session cookies for authentication and CSRF protection; these
+      cookies are set by the Nextcloud software itself and are
+      described in the privacy information provided inside that
+      application. No personal data is exchanged between
+      <code>rouvenjahnke.com</code> and <code>cloud.rouvenjahnke.com</code>.
+    </p>
+
+    <p>No transfer of data to any further third parties takes place.</p>
 
     <h2>5. Transfers to third countries</h2>
     <p>
