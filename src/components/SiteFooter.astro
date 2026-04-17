@@ -6,6 +6,11 @@ const year = new Date().getFullYear();
 <footer class="site-footer" role="contentinfo">
   <div class="site-footer__inner">
     <p>© {year} {SITE.name}</p>
+    <nav class="site-footer__legal" aria-label="Legal">
+      <a href="/impressum" lang="de">Impressum</a>
+      <span aria-hidden="true"> · </span>
+      <a href="/privacy" lang="de">Datenschutz</a>
+    </nav>
     <p>
       <a href="/notes/rss.xml">RSS</a> · <a href="/sitemap-index.xml">Sitemap</a>
     </p>
