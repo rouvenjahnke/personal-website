@@ -1,58 +1,60 @@
 /*
-  Base typographic styles.
-  Applied globally; layout primitives layered on top.
+  Base typographic styles — redesign/swiss.
+
+  Sans-serif throughout. Reading rhythm matches the 1.5rem baseline grid.
+  Numbers default to oldstyle in body (calmer); revert to lining +
+  tabular for headings, tables, dates and metadata where alignment matters.
 */
 
 html {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: var(--fs-base);
   line-height: var(--lh-normal);
   color: var(--color-text);
   background-color: var(--color-bg);
-  /* OpenType: small caps, oldstyle figures in body for paper-typography
-     feel. Tabular figures applied selectively where alignment matters. */
-  font-feature-settings: 'kern', 'liga', 'onum';
+  font-feature-settings: 'kern', 'ss01', 'cv11';
   font-variant-numeric: oldstyle-nums;
   hanging-punctuation: first allow-end last;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-}
+body { background-color: var(--color-bg); color: var(--color-text); }
 
-/* ── Headings ────────────────────────────────────────────────────────────── */
+/* ── Headings ─────────────────────────────────────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-sans);
-  font-weight: var(--fw-semibold);
+  font-weight: var(--fw-medium);
   line-height: var(--lh-tight);
   color: var(--color-text);
-  font-variant-numeric: lining-nums;
+  font-variant-numeric: lining-nums tabular-nums;
   text-wrap: balance;
   overflow-wrap: break-word;
+  letter-spacing: var(--tracking-tight);
 }
 
 h1 {
   font-size: var(--fs-2xl);
   font-weight: var(--fw-medium);
-  letter-spacing: var(--tracking-tight);
   margin-block: 0 var(--space-md);
 }
 
 h2 {
   font-size: var(--fs-xl);
   font-weight: var(--fw-medium);
-  letter-spacing: var(--tracking-tight);
   margin-block: var(--space-2xl) var(--space-sm);
 }
 
 h3 {
   font-size: var(--fs-lg);
+  font-weight: var(--fw-medium);
   margin-block: var(--space-xl) var(--space-xs);
 }
 
 h4 {
   font-size: var(--fs-md);
+  font-weight: var(--fw-semibold);
   margin-block: var(--space-lg) var(--space-xs);
 }
 
@@ -62,85 +64,63 @@ h5, h6 {
   margin-block: var(--space-md) var(--space-2xs);
 }
 
-/* ── Body text ───────────────────────────────────────────────────────────── */
+/* ── Body text ────────────────────────────────────────────────────────── */
 p {
   margin-block: 0 var(--space-md);
   text-wrap: pretty;
   hyphens: auto;
   overflow-wrap: break-word;
 }
+p:last-child { margin-block-end: 0; }
 
-p:last-child {
-  margin-block-end: 0;
-}
-
-strong, b {
-  font-weight: var(--fw-semibold);
-}
-
-em, i {
-  font-style: italic;
-}
+strong, b { font-weight: var(--fw-semibold); }
+em, i     { font-style: italic; }
 
 small {
   font-size: var(--fs-sm);
   color: var(--color-text-muted);
 }
 
-/* Tracked small-caps for acronyms (e.g. <abbr>PDE</abbr>, <abbr>PhD</abbr>). */
+/* Tracked all-caps for acronyms — a Swiss-school habit (PDE, PhD). */
 abbr,
 .smallcaps {
   font-variant-caps: all-small-caps;
   letter-spacing: var(--tracking-caps);
   text-decoration: none;
+  font-weight: var(--fw-medium);
 }
 
-/* ── Links ───────────────────────────────────────────────────────────────── */
+/* ── Links — body-coloured, underlined. No blue. ──────────────────────── */
 a {
-  color: var(--color-accent);
+  color: var(--color-text);
   text-decoration: underline;
-  text-decoration-thickness: 0.05em;
-  text-underline-offset: 0.18em;
-  text-decoration-color: var(--color-rule);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: var(--color-rule-strong);
   transition:
-    color var(--transition-fast),
-    text-decoration-color var(--transition-fast);
+    text-decoration-color var(--transition-fast),
+    text-decoration-thickness var(--transition-fast);
 }
-
-a:hover,
-a:focus-visible {
-  color: var(--color-accent-hover);
+a:hover {
   text-decoration-color: var(--color-accent);
+  text-decoration-thickness: 2px;
 }
-
 a:focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-focus);
   outline-offset: 3px;
-  border-radius: var(--radius-sm);
+  border-radius: 0;
 }
 
-/* ── Lists ───────────────────────────────────────────────────────────────── */
+/* ── Lists ────────────────────────────────────────────────────────────── */
 ul, ol {
   margin-block: 0 var(--space-md);
   padding-inline-start: 1.4em;
 }
+ul ul, ul ol, ol ul, ol ol { margin-block: var(--space-2xs) 0; }
+li { margin-block: var(--space-2xs); }
+li::marker { color: var(--color-text-faint); }
 
-ul ul,
-ul ol,
-ol ul,
-ol ol {
-  margin-block: var(--space-2xs) 0;
-}
-
-li {
-  margin-block: var(--space-2xs);
-}
-
-li::marker {
-  color: var(--color-text-faint);
-}
-
-/* Definition lists — used for CV-style key/value rows. */
+/* dl: tracked all-caps key on the left, plain dd. CV-style data row. */
 dl {
   display: grid;
   grid-template-columns: minmax(8rem, max-content) 1fr;
@@ -148,45 +128,36 @@ dl {
   row-gap: var(--space-sm);
   margin-block: 0 var(--space-md);
 }
-
 dt {
-  font-family: var(--font-sans);
-  font-size: var(--fs-sm);
+  font-size: var(--fs-xs);
   font-weight: var(--fw-medium);
-  color: var(--color-text-muted);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--tracking-caps);
+  color: var(--color-text-faint);
   font-variant-numeric: lining-nums tabular-nums;
+  padding-block-start: 0.25em;  /* baseline-align with the dd below */
 }
+dd { margin: 0; }
 
-dd {
-  margin: 0;
-}
-
-/* ── Blockquote ──────────────────────────────────────────────────────────── */
+/* ── Blockquote — flush-left indent, no rule (Hochuli idiom) ──────────── */
 blockquote {
   margin-block: var(--space-lg);
-  padding-inline-start: var(--space-md);
-  border-inline-start: 2px solid var(--color-rule);
-  font-style: italic;
+  padding-inline-start: var(--space-lg);
   color: var(--color-text-muted);
 }
+blockquote p:last-child { margin-block-end: 0; }
 
-blockquote p:last-child {
-  margin-block-end: 0;
-}
-
-/* ── Code ────────────────────────────────────────────────────────────────── */
+/* ── Code ─────────────────────────────────────────────────────────────── */
 code, kbd, samp {
   font-family: var(--font-mono);
   font-size: 0.9em;
   font-feature-settings: 'kern', 'liga' 0;
 }
-
 :not(pre) > code {
   padding: 0.1em 0.35em;
   background-color: var(--color-bg-subtle);
-  border-radius: var(--radius-sm);
+  border-radius: 0;
 }
-
 pre {
   margin-block: var(--space-md);
   padding: var(--space-md);
@@ -194,68 +165,60 @@ pre {
   font-size: var(--fs-sm);
   line-height: var(--lh-snug);
   background-color: var(--color-bg-subtle);
-  border-radius: var(--radius-sm);
-  border: var(--border-rule);
+  border-radius: 0;
+  border-inline-start: 2px solid var(--color-rule-strong);
 }
+pre code { background: none; padding: 0; font-size: inherit; }
 
-pre code {
-  background: none;
-  padding: 0;
-  font-size: inherit;
-}
-
-/* ── Tables ──────────────────────────────────────────────────────────────── */
+/* ── Tables — strict ruling, tabular figures ──────────────────────────── */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-block: var(--space-lg);
   font-variant-numeric: lining-nums tabular-nums;
-}
-
-caption {
-  font-family: var(--font-sans);
   font-size: var(--fs-sm);
-  color: var(--color-text-muted);
+}
+caption {
+  font-size: var(--fs-xs);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--tracking-caps);
+  color: var(--color-text-faint);
   text-align: start;
   padding-block-end: var(--space-xs);
 }
-
 th, td {
   padding: var(--space-xs) var(--space-sm);
   text-align: start;
   vertical-align: baseline;
   border-bottom: var(--border-rule);
 }
-
 th {
-  font-family: var(--font-sans);
-  font-size: var(--fs-sm);
   font-weight: var(--fw-medium);
-  letter-spacing: var(--tracking-wide);
+  font-size: var(--fs-xs);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--tracking-caps);
   color: var(--color-text-muted);
   border-bottom: 1px solid var(--color-rule-strong);
 }
 
-/* ── Rule ────────────────────────────────────────────────────────────────── */
+/* ── Rule ─────────────────────────────────────────────────────────────── */
 hr {
   border: none;
-  border-top: var(--border-rule);
+  border-top: 1px solid var(--color-rule-strong);
   margin-block: var(--space-2xl);
 }
 
-/* ── Figure ──────────────────────────────────────────────────────────────── */
-figure {
-  margin-block: var(--space-lg);
-}
-
+/* ── Figure ───────────────────────────────────────────────────────────── */
+figure { margin-block: var(--space-lg); }
 figcaption {
   margin-block-start: var(--space-xs);
-  font-family: var(--font-sans);
-  font-size: var(--fs-sm);
-  color: var(--color-text-muted);
+  font-size: var(--fs-xs);
+  font-variant-caps: all-small-caps;
+  letter-spacing: var(--tracking-caps);
+  color: var(--color-text-faint);
 }
 
-/* ── Visually hidden (a11y) ──────────────────────────────────────────────── */
+/* ── A11y ─────────────────────────────────────────────────────────────── */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -268,7 +231,6 @@ figcaption {
   border: 0;
 }
 
-/* Skip link — visible only on focus. */
 .skip-link {
   position: absolute;
   inset-block-start: var(--space-xs);
@@ -277,14 +239,18 @@ figcaption {
   background: var(--color-bg);
   border: 1px solid var(--color-accent);
   color: var(--color-accent);
-  font-family: var(--font-sans);
   font-size: var(--fs-sm);
   text-decoration: none;
   transform: translateY(-150%);
   transition: transform var(--transition-fast);
   z-index: 100;
 }
+.skip-link:focus-visible { transform: translateY(0); }
 
-.skip-link:focus-visible {
-  transform: translateY(0);
+::selection {
+  background: var(--color-selection-bg);
+  color: var(--color-selection-fg);
 }
+
+/* ── KaTeX harmonisation (lining figures inside math) ─────────────────── */
+.katex { font-variant-numeric: lining-nums; }
