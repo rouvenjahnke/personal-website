@@ -88,25 +88,86 @@ const STAND = 'April 2026';
       agreement.
     </p>
 
-    <h3>4.2 Nextcloud subdomain (cloud.rouvenjahnke.com)</h3>
+    <h3>4.2 Subdomain cloud.rouvenjahnke.com</h3>
+
+    <h4>4.2.1 Hosting</h4>
     <p>
-      The subdomain <code>cloud.rouvenjahnke.com</code> hosts a private
-      Nextcloud instance operated on shared-storage infrastructure
-      provided by Hetzner Online GmbH, Industriestraße 25, 91710
-      Gunzenhausen, Germany
+      The subdomain <code>cloud.rouvenjahnke.com</code> runs on shared
+      infrastructure provided by Hetzner Online GmbH, Industriestraße
+      25, 91710 Gunzenhausen, Germany
       (<a href="https://www.hetzner.com" rel="noopener noreferrer">www.hetzner.com</a>).
-      Hetzner processes access and server data for that subdomain as a
-      processor within the meaning of Art. 28 GDPR on the basis of a
-      corresponding data processing agreement.
+      Hetzner processes access and server data for that subdomain as
+      a processor within the meaning of Art. 28 GDPR on the basis of
+      a corresponding data processing agreement.
+    </p>
+
+    <h4>4.2.2 Nextcloud application</h4>
+    <p>
+      The subdomain hosts a private Nextcloud instance. The Nextcloud
+      service is a separate application with its own processing
+      context. Accessing it may set strictly necessary session cookies
+      for authentication and CSRF protection; these cookies are set
+      by the Nextcloud software itself and are described in the
+      privacy information provided inside that application. No
+      personal data is exchanged between <code>rouvenjahnke.com</code>
+      and <code>cloud.rouvenjahnke.com</code>.
+    </p>
+
+    <h4>4.2.3 Event registration forms</h4>
+    <p>
+      The subdomain may host forms that allow you to register for, or
+      book a place at, a specific event (for example events with
+      catering or drinks). If you submit such a form, the following
+      personal data is processed: your name and email address,
+      whether you attend with a companion and, if so, the name of
+      that companion, as well as any free-text remarks you choose to
+      provide (such as allergies, dietary requirements or other
+      information relevant to organising the event).
     </p>
     <p>
-      The Nextcloud service is a separate application with its own
-      processing context. Accessing it may set strictly necessary
-      session cookies for authentication and CSRF protection; these
-      cookies are set by the Nextcloud software itself and are
-      described in the privacy information provided inside that
-      application. No personal data is exchanged between
-      <code>rouvenjahnke.com</code> and <code>cloud.rouvenjahnke.com</code>.
+      Form submissions are handled on the Hetzner infrastructure
+      described in section 4.2.1 by a self-hosted workflow-automation
+      tool (n8n). As part of the workflow, the form contents are
+      forwarded as an email message so that the registration can be
+      processed manually. The email is dispatched via the Gmail
+      service operated by Google LLC, 1600 Amphitheatre Parkway,
+      Mountain View, CA 94043, USA (EU representative: Google
+      Ireland Limited, Gordon House, Barrow Street, Dublin 4,
+      Ireland). In the course of delivering and storing the message,
+      Google processes the sender and recipient addresses and the
+      content of the email in accordance with its own privacy policy
+      (<a href="https://policies.google.com/privacy" rel="noopener noreferrer">policies.google.com/privacy</a>).
+      This applies only to email traffic originating from
+      registration forms on the subdomain;
+      <code>rouvenjahnke.com</code> does not send any automated email.
+    </p>
+    <p>
+      <strong>Legal basis.</strong> Processing of registration data
+      is based on Art. 6(1)(b) GDPR (performance of the registration
+      arrangement and pre-contractual steps at your request). Where
+      you voluntarily disclose health-related information such as
+      allergies or dietary requirements, that information constitutes
+      a special category of personal data within the meaning of
+      Art. 9(1) GDPR; its processing is based on your explicit
+      consent under Art. 9(2)(a) GDPR, which you can withdraw at any
+      time with effect for the future. Providing any of the requested
+      data is voluntary; if it is not provided, the registration
+      cannot be processed.
+    </p>
+    <p>
+      <strong>Companions.</strong> If you enter a companion&rsquo;s
+      name, you are responsible for informing that person about the
+      processing described in this notice; the companion may
+      exercise the rights listed in section 7 directly against the
+      controller.
+    </p>
+    <p>
+      <strong>Retention.</strong> Registration data is kept only as
+      long as is needed to organise and follow up on the respective
+      event (for example to compile attendee, catering or drinks
+      lists) and is deleted without undue delay after the event,
+      unless a statutory retention obligation or the establishment or
+      defence of legal claims requires longer storage.
     </p>
 
     <p>No transfer of data to any further third parties takes place.</p>
@@ -117,6 +178,17 @@ const STAND = 'April 2026';
       in a third country outside the EU or EEA, this is carried out on
       the basis of an adequacy decision (Art. 45 GDPR) or appropriate
       safeguards, in particular the Standard Contractual Clauses of the
+      European Commission (Art. 46(2)(c) GDPR).
+    </p>
+    <p>
+      In addition, where emails are dispatched via Gmail as part of
+      the event-registration flow described in section 4.2.3, the
+      sender and recipient addresses and the content of the
+      respective emails are transferred to Google LLC in the United
+      States. The transfer is based on the EU-US Data Privacy
+      Framework (Commission Implementing Decision (EU) 2023/1795,
+      Art. 45 GDPR), under which Google LLC is certified, and
+      additionally on the Standard Contractual Clauses of the
       European Commission (Art. 46(2)(c) GDPR).
     </p>
 
