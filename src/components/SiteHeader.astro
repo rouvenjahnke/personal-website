@@ -3,9 +3,10 @@ import { SITE, NAV } from '~/consts';
 
 interface Props {
   pathname: string;
+  minimal?: boolean;
 }
 
-const { pathname } = Astro.props;
+const { pathname, minimal = false } = Astro.props;
 
 const isCurrent = (href: string): boolean => {
   if (href === '/') return pathname === '/' || pathname === '';
@@ -18,19 +19,21 @@ const isCurrent = (href: string): boolean => {
     <p class="site-title">
       <a href="/" rel="home">{SITE.name}</a>
     </p>
-    <nav class="site-nav" aria-label="Primary">
-      <ul class="site-nav__list" role="list">
-        {NAV.map((item) => (
-          <li>
-            <a
-              href={item.href}
-              aria-current={isCurrent(item.href) ? 'page' : undefined}
-            >
-              {item.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
+    {!minimal && (
+      <nav class="site-nav" aria-label="Primary">
+        <ul class="site-nav__list" role="list">
+          {NAV.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isCurrent(item.href) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
   </div>
 </header>

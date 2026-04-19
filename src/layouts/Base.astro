@@ -23,6 +23,8 @@ interface Props {
   ogType?: 'website' | 'article';
   /** ISO date for article pages. */
   publishedTime?: string;
+  /** Temporary chrome-less mode: hides primary nav and footer, keeps site title only. */
+  minimal?: boolean;
 }
 
 const {
@@ -32,6 +34,7 @@ const {
   noindex = false,
   ogType = 'website',
   publishedTime,
+  minimal = false,
 } = Astro.props;
 
 const fullTitle = title ? `${title} — ${SITE.name}` : SITE.title;
@@ -104,12 +107,12 @@ const pathname = Astro.url.pathname.replace(/\.html$/i, '').replace(/\/index$/i,
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="site">
-      <SiteHeader pathname={pathname} />
+      <SiteHeader pathname={pathname} minimal={minimal} />
       <main id="main" class="site__main">
         <slot />
       </main>
-      <SiteFooter />
+      {!minimal && <SiteFooter />}
     </div>
-    <CookieNotice />
+    {!minimal && <CookieNotice />}
   </body>
 </html>
